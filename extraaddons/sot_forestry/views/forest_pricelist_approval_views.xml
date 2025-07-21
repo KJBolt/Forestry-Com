@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="forest_pricelist_approval_tree" model="ir.ui.view">
+        <field name="name">forest.pricelist.approval.tree</field>
+        <field name="model">forest.pricelist.approval</field>
+        <field name="arch" type="xml">
+            <tree string="forest">
+                <field name="name"></field>
+                <field name="forest_type_id"></field>
+                <field name="forest_reverse_id"></field>
+                <field name="plot_compartment_id"></field>
+                <field name="product_id"></field>
+                <field name="approved_price"></field>
+                <field name="uom_id"></field>
+                <field name="effective_date"></field>
+                <field name="state" widget="badge" decoration-success="state=='approved'" decoration-info="state=='draft'" decoration-danger="state=='cancel'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="forest_pricelist_approval_form" model="ir.ui.view">
+        <field name="name">forest.pricelist.approval.form</field>
+        <field name="model">forest.pricelist.approval</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <field name="active" invisible="1"></field>
+
+                <header>
+                    <button name="action_approve" string="Approve" invisible="state != 'draft'" type="object" class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel" invisible="state != 'draft'" type="object" class="bg-danger text-white"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+
+                <sheet>
+                    <label for="name" string="Approval Name"/>
+                    <h1 class="oe_title">
+                        <field name="name" readonly="1" nolabel="1"></field>
+                    </h1>
+
+                    <group>
+                        <group name="main">
+                            <field name="forest_type_id" required="1" readonly="state!='draft'"/>
+                            <field name="forest_reverse_id" domain="[('forest_type','=',forest_type_id)]" required="1" readonly="state!='draft'"/>
+                            <field name="plot_compartment_id" domain="[('reverse_id','=',forest_reverse_id)]" required="1" readonly="state!='draft'"/>
+                            <field name="effective_date" required="1" readonly="state!='draft'"/>
+                        </group>
+                        <group name="2nd">
+                            <field name="product_id" required="1" readonly="state!='draft'"/>
+                            <field name="uom_id" required="1" readonly="state!='draft'"/>
+                            <field name="approved_price" required="1" readonly="state!='draft'"/>
+                            <field name="note" readonly="state!='draft'"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="forest_pricelist_approval_search" model="ir.ui.view">
+        <field name="name">forest.pricelist.approval.search</field>
+        <field name="model">forest.pricelist.approval</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="forest_type_id" domain="[('name','ilike',self)]"/>
+                <field name="product_id" string="Item Name" domain="[('name','ilike',self)]"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Item" name='product_id'
+                            context="{'group_by':'product_id'}"/>
+                    <filter string="Effective Start Date" name='effective_date'
+                            context="{'group_by':'effective_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="forest_pricelist_approval_action" model="ir.actions.act_window">
+        <field name="name">Forest Pricelist Approval</field>
+        <field name="res_model">forest.pricelist.approval</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="forest_pricelist_approval_search"></field>
+    </record>
+
+</odoo>

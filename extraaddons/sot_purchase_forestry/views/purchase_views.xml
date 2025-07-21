@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.inherited.form.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="is_forest_order" invisible="1"/>
+                <field name="forest_id" invisible="not is_forest_order"/>
+                <field name="plot_id" invisible="not is_forest_order"/>
+                <field name="waybill_id" invisible="not is_forest_order"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']//tree//field[@name='name']" position="after">
+                <field name="tree_id" width="10" readonly="1" column_invisible="not parent.is_forest_order"/>
+                <field name="log_id" width="10" readonly="1" column_invisible="not parent.is_forest_order"/>
+                <field name="contr_tree_no" width="10" readonly="1" column_invisible="not parent.is_forest_order"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_qty']" position="before">
+                <field name="formula_id" width="10" readonly="1" force_save="1" column_invisible="not parent.is_forest_order"/>
+                <field name="formula_html" class="o_field_formula_editor" width="10" optional="hide"
+                    column_invisible="not parent.is_forest_order"/>
+                <field name="formula_text" width="10" column_invisible="True"/>
+                <field name="formula_variables" width="10" column_invisible="True"/>
+                <field name="formula_values" width="10" column_invisible="True"/>
+                <field name="volume" width="10" options="{
+                    'formula_field': 'formula_id',
+                    'formula_text_field': 'formula_text',
+                    'formula_variable_field': 'formula_variables',
+                    'formula_value_field': 'formula_values',
+                }" widget="formula_value_calculator" column_invisible="not parent.is_forest_order"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']//form//field[@name='taxes_id']" position="after">
+                <field name="tree_id" readonly="1"/>
+                <field name="log_id" readonly="1"/>
+                <field name="contr_tree_no" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']//form//field[@name='analytic_distribution']" position="after">
+                <field name="remarks" readonly="1"/>
+            </xpath>
+
+            <!-- Hide the first print_quotation button -->
+            <xpath expr="//header/button[@name='print_quotation' and @invisible=&quot;state != 'draft'&quot;]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Hide the second print_quotation button -->
+            <xpath expr="//header/button[@name='print_quotation' and @invisible=&quot;state != 'sent'&quot;]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Custom Print Button -->
+            <xpath expr="//header" position="inside">
+                <button name="%(sot_purchase_forestry.action_purchase_rfq_template)d" 
+                    string="Print RFQ" 
+                    type="action" 
+                    class="btn-secondary" 
+                    invisible="state in ('purchase')"
+                />
+
+                <button name="%(sot_purchase_forestry.action_purchase_order_template)d" 
+                    string="Print PO" 
+                    type="action" 
+                    class="btn-secondary" 
+                    invisible="state in ('draft', 'sent')"
+                />
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

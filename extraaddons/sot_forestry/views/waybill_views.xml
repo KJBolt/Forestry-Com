@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="waybill_view_tree" model="ir.ui.view">
+        <field name="name">waybill_view_tree</field>
+        <field name="model">waybill.waybill</field>
+        <field name="arch" type="xml">
+            <tree string="waybill_view_tree_tree">
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="lif_number"/>
+                <field name="waybill_no"/>
+                <field name="lmcc_no"/>
+                <field name="lmcc_date"/>
+                <field name="create_uid"/>
+                <field name="create_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="waybill_view_form" model="ir.ui.view">
+        <field name="name">waybill_view_form</field>
+        <field name="model">waybill.waybill</field>
+        <field name="arch" type="xml">
+            <form string="waybill_form">
+                <field name="purchase_order_id" invisible="1"/>
+                <header>
+                    <button name="action_approve" string="Approve" invisible="state != 'draft'" type="object"
+                            class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel" invisible="state != 'draft'" type="object"
+                            class="bg-danger text-white"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state not in ('cancel')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-list" invisible="not purchase_order_id"
+                                name="action_view_purchase_order" type="object">
+                            <span>
+                                Purchase Order
+                            </span>
+                        </button>
+                    </div>
+                    <h1 class="oe_title">
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="forest_id" required="1" readonly="state != 'draft'"
+                                   domain="[('state','=','approved')]"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="plot_id" required="1" readonly="state != 'draft'"
+                                   domain="[('reverse_id','=',forest_id), ('reverse_id.state','=','approved')]"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="manager_id" required="1" readonly="state != 'draft'"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="supplier_id" required="1" readonly="state != 'draft'"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="lif_number"/>
+                            <field name="lif_date" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="waybill_no" readonly="1"/>
+                            <field name="waybill_date" readonly="state != 'draft'"/>
+                            <field name="vehicle_id" required="1" readonly="state != 'draft'"/>
+                            <field name="transport_type_id" readonly="state != 'draft'"/>
+                            <field name="driver_id" domain="[('customer_type', '=', 'driver')]"
+                                   context="{'default_customer_type':'driver', 'customer_type_readonly':True}"
+                                   required="1" readonly="state != 'draft'"/>
+                            <field name="current_reading" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <hr/>
+                    <group>
+                        <group>
+                            <field name="lmcc_no"/>
+                            <field name="lmcc_date"/>
+                        </group>
+                        <group>
+                            <field name="remarks" placeholder="Write your remarks here.."/>
+                        </group>
+                    </group>
+                    <hr/>
+                    <group>
+                        <field name="cross_cut_log_id"
+                               domain="[('forest_id','=?', forest_id),('plot_id','=?', plot_id)]"
+                               placeholder="Enter cross cut log number to auto complete" readonly="state != 'draft'"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Waybill Items">
+                            <field name="log_line_ids" options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}">
+                                <tree string="Waybill Items" editable="bottom" edit="false" create="false">
+                                    <field name="tree_id" width="10"/>
+                                    <field name="product_id" readonly="1" string="Species" />
+                                    <field name="name" width="15"/>
+                                    <field name="formula_id" width="10" readonly="1" force_save="1"/>
+                                    <field name="formula_html" class="o_field_formula_editor" width="10" optional="hide"/>
+                                    <field name="formula_text" width="10" column_invisible="True"/>
+                                    <field name="formula_variables" width="10" column_invisible="True"/>
+                                    <field name="formula_values" width="10" column_invisible="True"/>
+                                    <field name="quantity" width="10" options="{
+                                            'formula_variable_field': 'formula_variables', 'formula_value_field': 'formula_values',
+                                            'formula_text_field': 'formula_text', 'formula_field': 'formula_id',
+                                        }" widget="formula_value_calculator" sum="Total Volume"/>
+                                    <field name="volume_uom_id" width="5"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="forest_waybill_waybill_search_view" model="ir.ui.view">
+        <field name="name">waybill.waybill.search</field>
+        <field name="model">waybill.waybill</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="forest_id"/>
+                <field name="plot_id"/>
+                <field name="waybill_no"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="waybill_action" model="ir.actions.act_window">
+        <field name="name">Log Information</field>
+        <field name="res_model">waybill.waybill</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

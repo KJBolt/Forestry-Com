@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="seq_mrp_production_batch" model="ir.sequence">
+        <field name="name">Batch Manufacturing Order</field>
+        <field name="code">mrp.production.batch</field>
+        <field name="prefix">SPD-%(year)s-</field>
+        <field name="padding">6</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Access -->
+    <record id="access_forest_tree_import_wizard" model="ir.model.access">
+        <field name="name">forest.tree.import.wizard</field>
+        <field name="model_id" ref="model_forest_tree_import_wizard"/>
+        <field name="group_id" ref="base.group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="view_forest_tree_import_wizard_form" model="ir.ui.view">
+        <field name="name">forest.tree.import.wizard.form</field>
+        <field name="model">forest.tree.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Trees from Excel">
+                <sheet>
+                    <group>
+                        <group>
+                            <label for="file" string="Excel File" class="oe_edit_only"/>
+                            <div>
+                                <field name="file" filename="file_name" string="Excel File" widget="binary"/>
+                                <field name="file_name" readonly="1" invisible="1"/>
+                                <p class="text-muted">
+                                    <strong>Note:</strong> The Excel file should contain the following columns:<br/>
+                                    - Forest Name*<br/>
+                                    - Plot/Compartment*<br/>
+                                    - Stripe Line<br/>
+                                    - Latitude*<br/>
+                                    - Longitude*<br/>
+                                    - Remarks<br/>
+                                    - Stock Number<br/>
+                                    - Species<br/>
+                                    - Diameter<br/>
+                                    - Condition Score<br/>
+                                    - UoM (Unit of Measure)<br/><br/>
+                                    
+                                    <strong>For multiple compartment details under the same tree:</strong><br/>
+                                    - First row: Enter the tree details<br/>
+                                    - Following rows: Use "" under the tree fields to add more compartment details to the same tree<br/><br/>
+                                    
+                                    <button name="download_template" type="object" class="btn btn-primary">
+                                        Download Excel Template
+                                    </button>
+                                </p>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_import" string="Import" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_forest_tree_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Trees from Excel</field>
+        <field name="res_model">forest.tree.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_forest_tree_import_wizard_form"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

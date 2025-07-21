@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="certificate_status_uncontrolled_wood" model="certificate.status">
+            <field name="name">Uncontrolled Wood</field>
+            <field name="sequence">200</field>
+        </record>
+
+        <record id="certificate_status_fsc_controlled_wood_1" model="certificate.status">
+            <field name="name">FSC Controlled Wood: SCS-CW/FM-008331</field>
+            <field name="sequence">210</field>
+        </record>
+
+        <record id="certificate_status_fsc_controlled_wood_2" model="certificate.status">
+            <field name="name">FSC Controlled Wood: SCS-CW-008332</field>
+            <field name="sequence">220</field>
+        </record>
+
+    </data>
+</odoo>

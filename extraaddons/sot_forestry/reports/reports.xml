@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="paperformat_waybill_a4" model="report.paperformat">
+            <field name="name">WayBill Report A4</field>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="disable_shrinking" eval="True"/>
+            <field name="dpi">96</field>
+            <field name="default" eval="False"/>
+        </record>
+
+        <record id="action_report_sot_forestry_waybill" model="ir.actions.report">
+            <field name="name">WayBill Report</field>
+            <field name="model">waybill.waybill</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="paperformat_id" ref="paperformat_waybill_a4"/>
+            <field name="report_name">sot_forestry.report_sot_forestry_waybill_template</field>
+            <field name="report_file">sot_forestry.report_sot_forestry_waybill_template</field>
+            <field name="print_report_name">'WayBill Report'</field>
+        </record>
+
+        <record id="action_print_waybill_pdf_report" model="ir.actions.server">
+            <field name="name">Print WayBill Report</field>
+            <field name="model_id" ref="sot_forestry.model_waybill_waybill"/>
+            <field name="binding_model_id" ref="sot_forestry.model_waybill_waybill"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.action_print_pdf()
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    
+        <!--Menus -->
+
+
+        <menuitem id="menu_action_manufacturing"
+                parent="mrp.menu_mrp_manufacturing"
+                name="Dashboard"
+                action="action_mafufacturing_dashboard"
+                sequence="-1"/>                                                   
+    </data>
+</odoo>

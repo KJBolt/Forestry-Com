@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="formula_view_tree" model="ir.ui.view">
+        <field name="name">formula_view_tree</field>
+        <field name="model">formula.formula</field>
+        <field name="arch" type="xml">
+            <tree string="formula_tree">
+                <field name="name"/>
+                <field name="description" optional="hide"/>
+                <field name="formula_html" class="o_field_formula_editor"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'"
+                       decoration-success="state == 'active'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="formula_view_form" model="ir.ui.view">
+        <field name="name">formula_view_form</field>
+        <field name="model">formula.formula</field>
+        <field name="arch" type="xml">
+            <form string="formula_form">
+                <header>
+                    <button name="action_deactivate_formula" string="Reset to Draft" invisible="state!='active'"
+                            type="object"/>
+                    <button name="%(sot_mrp_formula_builder.formula_check_wizard_view_action)d"
+                            invisible="state!='draft'" context="{'default_formula_id':id}" type="action"
+                            string="Test Formula"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active"/>
+                </header>
+                <sheet>
+                    <h1 class="oe_title">
+                        <field name="name" readonly="state!='draft'" placeholder="e.g.  Moulding Dw-Packing .."/>
+                    </h1>
+                    <h6>
+                        <field name="description" readonly="state!='draft'"
+                               placeholder="Enter formula use case or some descriptions can be added also.."/>
+                    </h6>
+                    <group string="Formula">
+                        <field name="formula_html" class="o_field_formula_editor" invisible="state!='active'"/>
+                        <group>
+                            <field name="formula" readonly="1" force_save="1" invisible="state!='draft'"/>
+                            <field name="variables" invisible="1"/>
+                        </group>
+                        <group invisible="state!='draft'">
+                            <field name="formula_editor" widget="formula_editor"
+                                   options="{'output_field_name':'formula', 'dynamic_variable_field_name':'variables'}"/>
+                            <field name="variable_id"/>
+                            <field name="function_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- formula.variable tree view -->
+    <record id="formula_variable_view_tree" model="ir.ui.view">
+        <field name="name">formula.variable.view.tree</field>
+        <field name="model">formula.variable</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="active" column_invisible="1"/>
+                <field name="name"/>
+                <field name="variable"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- formula.function tree view -->
+    <record id="formula_function_view_tree" model="ir.ui.view">
+        <field name="name">formula.function.view.tree</field>
+        <field name="model">formula.function</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="active" column_invisible="1"/>
+                <field name="name"/>
+                <field name="function_name"/>
+                <field name="sample_formula"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="formula_list_view_action" model="ir.actions.act_window">
+        <field name="name">Formulas</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">formula.formula</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="function_list_view_action" model="ir.actions.act_window">
+        <field name="name">Functions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">formula.function</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    </record>
+
+    <record id="formula_variable_list_view_action" model="ir.actions.act_window">
+        <field name="name">Variables</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">formula.variable</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="mrp_formula_form_action" model="ir.actions.client">
+        <field name="name">Open Formula Builder</field>
+        <field name="tag">formula_builder</field>
+        <field name="res_model">formula.formula</field>
+    </record>
+
+    <menuitem id="formula_menu" name="Formula Builder" parent="stock.menu_stock_config_settings" sequence="10"/>
+    <menuitem id="formula_variable_list_menu" name="Variables" parent="formula_menu" sequence="10"
+              action="formula_variable_list_view_action"/>
+    <menuitem id="formula_function_list_menu" name="Functions" parent="formula_menu" sequence="20"
+              action="function_list_view_action"/>
+    <menuitem id="formula_list_menu" name="Formulas" parent="formula_menu" sequence="30"
+              action="formula_list_view_action"/>
+
+</odoo>

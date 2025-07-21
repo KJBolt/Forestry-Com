@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<template>
+    <t t-name="geo_mrp_dashboard.KpiCardDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+     <t t-name="geo_mrp_dashboard.CrossCutDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+     <t t-name="geo_mrp_dashboard.HaulingDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+     <t t-name="geo_mrp_dashboard.LogInformationDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+
+     <t t-name="geo_mrp_dashboard.KpiCardCancel" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    
+    <t t-name="geo_mrp_dashboard.KpiCardApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    <t t-name="geo_mrp_dashboard.CrossCutApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    <t t-name="geo_mrp_dashboard.HaulingApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    <t t-name="geo_mrp_dashboard.LogInformationApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+</template>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+
+        <record id="product_attribute_property_mark" model="product.attribute.type">
+            <field name="name">Property Mark</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <record id="product_attribute_district" model="product.attribute.type">
+            <field name="name">District</field>
+            <field name="sequence">110</field>
+        </record>
+
+        <record id="product_attribute_forest_type" model="product.attribute.type">
+            <field name="name">Forest type</field>
+            <field name="sequence">120</field>
+        </record>
+
+        <record id="product_attribute_species" model="product.attribute.type">
+            <field name="name">Species</field>
+            <field name="sequence">130</field>
+        </record>
+        
+        <record id="product_attribute_costing" model="product.attribute.type">
+            <field name="name">Costing</field>
+            <field name="sequence">140</field>
+        </record>
+
+        <record id="product_attribute_downtime" model="product.attribute.type">
+            <field name="name">Downtime</field>
+            <field name="sequence">150</field>
+        </record>
+        
+        <record id="product_attribute_overhead" model="product.attribute.type">
+            <field name="name">Overhead</field>
+            <field name="sequence">160</field>
+        </record>
+        
+        <record id="product_attribute_defects" model="product.attribute.type">
+            <field name="name">Defects</field>
+            <field name="sequence">170</field>
+        </record>
+        
+        <record id="product_attribute_feedback" model="product.attribute.type">
+            <field name="name">Feedback</field>
+            <field name="sequence">180</field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="product_attribute_type_tree" model="ir.ui.view">
+        <field name="name">product.attribute.type.tree</field>
+        <field name="model">product.attribute.type</field>
+        <field name="arch" type="xml">
+            <tree string="product_attribute_type_tree">
+                <field name="sequence" widget="handle"></field>
+                <field name="name"></field>
+                <field name="note"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_attribute_type_form" model="ir.ui.view">
+        <field name="name">product.attribute.type.form</field>
+        <field name="model">product.attribute.type</field>
+        <field name="arch" type="xml">
+            <form string="product_attribute_type_form">
+                <field name="active" invisible="1"></field>
+                <field name="sequence" invisible="1"></field>
+                <sheet>
+                    <group name="main">
+                        <group>
+                            <field name="name"></field>
+                            <field name="note"></field>
+                        </group>
+                    </group>
+
+                </sheet>
+                 <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_attribute_type_action" model="ir.actions.act_window">
+        <field name="name">Parameter Setup</field>
+        <field name="res_model">product.attribute.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

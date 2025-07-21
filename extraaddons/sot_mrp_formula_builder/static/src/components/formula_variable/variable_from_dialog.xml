@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="sot_mrp_formula_builder.NewVariableDialog">
+      <Dialog title="title">
+           <form>
+                <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <label for="variableNameTextInput" class="form-label">Variable Name</label>
+                        <input type="text" id="variableNameTextInput" class="form-control" placeholder="e.g. THICKNESS"/>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="dataTypeSelect" class="form-label">Data Type</label>
+                        <select id="dataTypeSelect" class="form-select">
+                            <option>Number</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="_confirm">Add Variable</button>
+                <button class="btn btn-secondary" t-on-click="_cancel">Cancel</button>
+            </t>
+      </Dialog>
+    </t>
+
+
+</templates>

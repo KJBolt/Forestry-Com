@@ -1,0 +1,32 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_attribute_type_user,product.attribute.type no_group,model_product_attribute_type,,1,1,1,0
+access_forest_type_user,forest.type no_group,model_forest_type,,1,1,1,1
+access_vehicle_type_user,vehicle.type no_group,model_vehicle_type,,1,1,1,1
+access_forest_pricelist_approval_user,forest.pricelist.approval no_group,model_forest_pricelist_approval,,1,1,1,0
+
+access_forest_reverse,forest.reverse no_group,model_forest_reverse,,1,1,1,1
+access_forest_reverse_line,forest.reverse.line no_group,model_forest_reverse_line,,1,1,1,1
+access_forest_reverse_line_point,forest.reverse.line.point no_group,model_forest_reverse_line_point,,1,1,1,1
+access_forest_reverse_line_coordinate,forest.reverse.line.coordinate no_group,model_forest_reverse_line_coordinate,,1,1,1,1
+access_forest_reverse_line_stripe,forest.reverse.line.stripe no_group,model_forest_reverse_line_stripe,,1,1,1,1
+
+access_forest_tree,forest.tree no_group,model_forest_tree,,1,1,1,1
+access_forest_tree_line,forest.tree.line no_group,model_forest_tree_line,,1,1,1,1
+access_forest_tree_felling,forest.tree.felling no_group,model_forest_tree_felling,,1,1,1,1
+access_forest_tree_felling_line,forest.tree.felling.line no_group,model_forest_tree_felling_line,,1,1,1,1
+
+access_machine_machine,machine.machine no_group,model_machine_machine,,1,1,1,1
+access_certificate_status,certificate.status no_group,model_certificate_status,,1,1,1,1
+access_forest_property_mark,forest.property.mark no_group,model_forest_property_mark,,1,1,1,1
+access_forest_district,forest.district no_group,model_forest_district,,1,1,1,1
+
+access_forest_tree_information,forest.tree.information no_group,model_forest_tree_information,,1,1,1,1
+access_forest_tree_inforamtion_line,forest.tree.inforamtion.line no_group,model_forest_tree_inforamtion_line,,1,1,1,1
+
+access_cross_cut,cross.cut no_group,model_cross_cut,,1,1,1,1
+access_cross_cut_log,cross.cut.log no_group,model_cross_cut_log,,1,1,1,1
+access_cross_cut_log_line,cross.cut.log.line no_group,model_cross_cut_log_line,,1,1,1,1
+
+access_hauling_hauling,hauling.hauling no_group,model_hauling_hauling,,1,1,1,1
+
+access_waybill_waybill,waybill.waybill no_group,model_waybill_waybill,,1,1,1,1

@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="forest_reverse_tree_view" model="ir.ui.view">
+        <field name="name">forest.reverse.tree</field>
+        <field name="model">forest.reverse</field>
+        <field name="arch" type="xml">
+            <tree string="forest">
+                <field name="code"></field>
+                <field name="name"></field>
+                <field name="forest_type"></field>
+                <field name="district_id"></field>
+                <field name="property_mark_id"></field>
+                <field name="supplier_id"></field>
+                <field name="state" width="10" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'cancel'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="forest_forest_reverse_form_view" model="ir.ui.view">
+        <field name="name">forest.reverse.form</field>
+        <field name="model">forest.reverse</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <field name="active" invisible="1"></field>
+                <field name="any_active_lines" invisible="1"></field>
+                <header>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'draft'"
+                            class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="bg-danger text-white"
+                            invisible="state not in ('draft',)"/>
+                    <button name="action_close" type="object"
+                            confirm="Are you want to close this? It will not be shown on tree registration."
+                            string="Close" class="btn-success"
+                            invisible="state not in ('approved',) or any_active_lines == False"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state not in ('cancel', 'close')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+
+                <sheet>
+                    <h1 class="oe_title">
+                        <field name="code" nolabel="1"></field>
+                    </h1>
+
+                    <group>
+                        <group name="main" readonly="state != 'draft'">
+                            <field name="name" required="1" readonly="state != 'draft'"></field>
+                            <field name="district_id" readonly="state != 'draft'"></field>
+                            <field name="forest_type" required="1" readonly="state != 'draft'"></field>
+                            <field name="supplier_id" required="1" readonly="state != 'draft'"
+                                   domain="[('customer_type', '=', 'supplier')]"
+                                   context="{
+                                   'search_default_supplier': 1,'res_partner_search_mode': 'supplier',
+                                   'default_is_company': True, 'default_supplier_rank': 1,
+                                   'default_customer_type': 'supplier', 'customer_type_readonly':True
+                                   }"
+                            />
+                        </group>
+                        <group name="2nd">
+                            <field name="certificate_no" readonly="state != 'draft'"/>
+                            <field name="property_mark_id" readonly="state != 'draft'"></field>
+                            <field name="fmu" readonly="state != 'draft'"/>
+                            <label for="area" readonly="state != 'draft'"/>
+                            <div class="row">
+                                <field name="area" required="1" class="oe_inline col-sm" placeholder="Enter Area Size"
+                                       readonly="state != 'draft'"></field>
+                                <field name="uom_id" required="1" class="oe_inline col-sm" placeholder="Select UoM"
+                                       readonly="state != 'draft'"></field>
+                            </div>
+                        </group>
+                    </group>
+
+                    <hr/>
+                    <group>
+                        <group>
+                            <field name="forestry_code" readonly="state != 'draft'"></field>
+                            <field name="rate" readonly="state != 'draft'"></field>
+                        </group>
+
+                        <group>
+                            <field name="certification_status_id" required="1" readonly="state != 'draft'"></field>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Compartment Details">
+                            <field name="line_ids" readonly="state in ['close', 'cancel']">
+                                <tree>
+                                    <field name="name" width="20"></field>
+                                    <field name="circumference" width="20"></field>
+                                    <field name="area" width="20"></field>
+                                    <field name="area_uom_id" width="20"></field>
+                                    <field name="active" width="20"></field>
+                                </tree>
+                                <form>
+                                    <label for="name" string="Plot/Compartment Name"/>
+                                    <h1 class="oe_title">
+                                        <field name="name" required="1" nolabel="1" placeholder="e.g. 001"></field>
+                                    </h1>
+
+                                    <group>
+                                        <group>
+                                            <label for="area"/>
+                                            <div class="row">
+                                                <field name="area" required="1" class="oe_inline col-sm"></field>
+                                                <field name="area_uom_id" required="1" class="oe_inline col-sm" placeholder="UoM"></field>
+                                            </div>
+                                            <field name="latitude" required="1" placeholder="Enter Latitude"></field>
+                                            <field name="longitude" required="1" placeholder="Enter Longitude"></field>
+                                            <field name="is_used_plot_compartment" invisible="1"></field>
+                                        </group>
+                                        <group>
+                                            <field name="circumference"></field>
+                                            <field name="plantation"></field>
+                                            <field name="price_applicable"></field>
+                                            <field name="active" widget="boolean_toggle"></field>
+                                        </group>
+                                    </group>
+
+                                    <notebook>
+                                        <page string="Points">
+                                            <field name="point_line_ids">
+                                                <tree editable="bottom">
+                                                    <field name="form_point" required="1" placeholder="Enter From Point" width="25"></field>
+                                                    <field name="to_point" required="1" placeholder="Enter To Point" width="25"></field>
+                                                    <field name="distance" required="1" placeholder="Enter Distance" width="25"></field>
+                                                    <field name="unit_id" required="1" width="25"></field>
+                                                </tree>
+                                                <form>
+                                                    <group>
+                                                        <group>
+                                                            <field name="form_point"></field>
+                                                            <field name="to_point"></field>
+                                                        </group>
+                                                        <group>
+                                                            <field name="distance"></field>
+                                                            <field name="unit_id"></field>
+                                                        </group>
+                                                    </group>
+                                                </form>
+                                            </field>
+                                        </page>
+                                        <page string="Strip Line">
+                                            <field name="stripe_line_ids">
+                                                <tree editable="bottom">
+                                                    <field name="name" placeholder="Enter Strip Name" required="1" width="40"></field>
+                                                    <field name="distance" placeholder="Enter Distance" required="1" width="40"></field>
+                                                    <field name="unit_id" placeholder="Select UoM" required="1" width="20"></field>
+                                                </tree>
+                                                <form>
+                                                    <group>
+                                                        <group>
+                                                            <field name="name"></field>
+                                                        </group>
+                                                        <group>
+                                                            <field name="distance"></field>
+                                                            <field name="unit_id"></field>
+                                                        </group>
+                                                    </group>
+                                                </form>
+                                            </field>
+                                        </page>
+                                        <page string="Direction">
+                                            <group>
+                                                <field name="embed_map" placeholder="Enter your embedded map.." widget="embed_map_viewer"></field>
+                                                <!-- invisible="'reverse_id.state','!=','approved'" readonly="'reverse_id.state','=','approved'" -->
+                                            </group>
+                                        </page>
+                                    </notebook>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="forest_reserve_line_view_form" model="ir.ui.view">
+        <field name="name">forest_reserve_line_view_form</field>
+        <field name="model">forest.reverse.line</field>
+        <field name="arch" type="xml">
+            <form string="forest_reserve_line_view_form" edit="false" create="false" duplicate="false" delete="false">
+                <sheet>
+                    <label for="name" string="Plot/Compartment Name"/>
+                    <h1 class="oe_title">
+                        <field name="name" required="1" nolabel="1" placeholder="e.g. 001"></field>
+                    </h1>
+
+                    <group>
+                        <group>
+                            <label for="area"/>
+                            <div class="row">
+                                <field name="area" required="1" class="oe_inline col-sm"></field>
+                                <field name="area_uom_id" required="1" class="oe_inline col-sm"
+                                       placeholder="UoM"></field>
+                            </div>
+                            <field name="latitude" required="1" placeholder="Enter Latitude"></field>
+                            <field name="longitude" required="1" placeholder="Enter Longitude"></field>
+                            <field name="is_used_plot_compartment" invisible="1"></field>
+                        </group>
+                        <group>
+                            <field name="circumference"></field>
+                            <field name="plantation"></field>
+                            <field name="price_applicable"></field>
+                            <field name="active" widget="boolean_toggle"></field>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Points">
+                            <field name="point_line_ids">
+                                <tree editable="bottom">
+                                    <field name="form_point" required="1" placeholder="Enter From Point"
+                                           width="25"></field>
+                                    <field name="to_point" required="1" placeholder="Enter To Point" width="25"></field>
+                                    <field name="distance" required="1" placeholder="Enter Distance" width="25"></field>
+                                    <field name="unit_id" required="1" width="25"></field>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="form_point"></field>
+                                            <field name="to_point"></field>
+                                        </group>
+                                        <group>
+                                            <field name="distance"></field>
+                                            <field name="unit_id"></field>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Strip Line">
+                            <field name="stripe_line_ids">
+                                <tree editable="bottom">
+                                    <field name="name" placeholder="Enter Strip Name" required="1" width="40"></field>
+                                    <field name="distance" placeholder="Enter Distance" required="1" width="40"></field>
+                                    <field name="unit_id" placeholder="Select UoM" required="1" width="20"></field>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"></field>
+                                        </group>
+                                        <group>
+                                            <field name="distance"></field>
+                                            <field name="unit_id"></field>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Direction">
+                            <group>
+                                <field name="embed_map" placeholder="Enter your embedded map.."
+                                       widget="embed_map_viewer"></field>
+                                <!-- invisible="'reverse_id.state','!=','approved'" readonly="'reverse_id.state','=','approved'" -->
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="forest_reverse_search_view" model="ir.ui.view">
+        <field name="name">forest.reverse.search</field>
+        <field name="model">forest.reverse</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="forest_type" string="Forest Type"/>
+                <field name="district_id" string="District"/>
+                <field name="supplier_id" string="Supplier Name"/>
+                <field name="property_mark_id" string="Property Mark"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="forest_forest_reverse_action" model="ir.actions.act_window">
+        <field name="name">Forest Reverse</field>
+        <field name="res_model">forest.reverse</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="forest_reverse_search_view"></field>
+    </record>
+
+</odoo>

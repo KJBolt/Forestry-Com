@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="vehicle_type_tree" model="ir.ui.view">
+        <field name="name">vehicle.type.tree</field>
+        <field name="model">vehicle.type</field>
+        <field name="arch" type="xml">
+            <tree string="" editable="bottom">
+                <field name="sequence" widget="handle"></field>
+                <field name="name"></field>
+                <field name="note"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="vehicle_type_action" model="ir.actions.act_window">
+        <field name="name">Vehicle Type Setup</field>
+        <field name="res_model">vehicle.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+</odoo>

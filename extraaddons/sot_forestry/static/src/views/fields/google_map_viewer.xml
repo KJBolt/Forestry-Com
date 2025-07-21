@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="geo_iworks.GoogleMapViewer" t-inherit="web.CharField">
+        <xpath expr="//t[@t-else='']" position="after">
+            <t t-if="url">
+                <p class="mt-3 w-100 text-center" t-raw="url"/>
+            </t>
+        </xpath>
+
+        <!--Hide Code when Not Editing Mode.-->
+        <xpath expr="//t[@t-if='props.readonly']/span" position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cross_cut_view_tree" model="ir.ui.view">
+        <field name="name">cross_cut_view_tree</field>
+        <field name="model">cross.cut</field>
+        <field name="arch" type="xml">
+            <tree string="cross_cut_view_tree">
+                <field name="name"/>
+                <field name="forest_id"/>
+                <field name="forest_type_id"/>
+                <field name="supplier_id"/>
+                <field name="operator_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="cross_cut_view_form" model="ir.ui.view">
+        <field name="name">cross_cut_view_form</field>
+        <field name="model">cross.cut</field>
+        <field name="arch" type="xml">
+            <form string="cross_cut_view_form">
+                <header>
+                    <button name="action_approve" string="Approve" invisible="state != 'draft'" type="object"
+                            class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel" invisible="state != 'draft'" type="object"
+                            class="bg-danger text-white"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state not in ('cancel')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+
+                <sheet>
+                    <field name="forest_type_id" invisible="1"/>
+                    <field name="supplier_id" invisible="1"/>
+
+                    <label for="name"/>
+                    <h1 class="oe_title">
+                        <field name="name"/>
+                    </h1>
+
+                    <group>
+                        <group>
+                            <field name="forest_id" readonly="state != 'draft'" domain="[('state','=','approved')]"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="plot_id" readonly="state != 'draft'"
+                                   domain="[('reverse_id','=',forest_id), ('reverse_id.state','=','approved')]"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="machine_id" readonly="state != 'draft'"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="operator_id" readonly="state != 'draft'"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="machine_runtime" widget="float_time" readonly="state != 'draft'"/>
+                            <field name="remarks" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page name="tree_details" string="Log Details">
+                            <field name="line_ids" readonly="state != 'draft'"
+                                context="{
+                                'default_forest_id': forest_id,
+                                'default_plot_id': plot_id,
+                                'tree_view_ref':'sot_forestry.cross_cut_log_view_tree'
+                                }">
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="cross_cut_log_view_tree" model="ir.ui.view">
+        <field name="name">cross_cut_log_view_tree</field>
+        <field name="model">cross.cut.log</field>
+        <field name="arch" type="xml">
+            <tree string="cross_cut_log_tree">
+                <field name="forest_id" column_invisible="1"/>
+                <field name="plot_id" column_invisible="1"/>
+                <field name="cross_cut_id" column_invisible="1"/>
+                <field name="tree_id"/>
+                <field name="product_id"/>
+                <field name="volume"/>
+                <field name="volume_uom_id"/>
+                <field name="log_line_count"/>
+                <field name="log_line_ids" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="cross_cut_log_view_form" model="ir.ui.view">
+        <field name="name">cross_cut_log_view_form</field>
+        <field name="model">cross.cut.log</field>
+        <field name="arch" type="xml">
+            <form string="cross_cut_log_form">
+                <sheet>
+                    <field name="plot_id" invisible="1"/>
+                    <field name="forest_id" invisible="1"/>
+                    <field name="cross_cut_id" invisible="1"/>
+
+                    <group>
+                        <group>
+                            <field name="tree_id"
+                                domain="[('forest_reverse_id','=',parent.forest_id),('is_used','=',False),('state','=','fallen')]"
+                                width="8"
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="logs_count" placeholder="Enter Number of Logs to Create log Lines.."/>
+                        </group>
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <label for="volume"/>
+                            <div class="row">
+                                <field name="volume" class="oe_inline col-sm" readonly="1"/>
+                                <field name="volume_uom_id" class="oe_inline col-sm" placeholder="Select UoM"/>
+                            </div>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page name="log_lines" string="Log Lines">
+                            <field name="log_line_ids">
+                                <tree string="Log Lines" create="false" editable="bottom">
+                                    <field name="forest_id" column_invisible="1"/>
+                                    <field name="plot_id" column_invisible="1"/>
+                                    <field name="log_id" column_invisible="1"/>
+                                    <field name="tree_id" column_invisible="1"/>
+                                    <field name="product_id" column_invisible="1"/>
+                                    <field name="name" width="9" readonly="1" force_save="1"/>
+                                    <field name="formula_id" width="10" readonly="1" force_save="1"/>
+                                    <field name="formula_html" class="o_field_formula_editor" width="10"
+                                        optional="hide"/>
+                                    <field name="formula_text" width="10" column_invisible="True"/>
+                                    <field name="formula_variables" width="10" column_invisible="True"/>
+                                    <field name="formula_values" width="10" column_invisible="True"/>
+                                    <field name="quantity" width="10" options="{
+                                            'formula_variable_field': 'formula_variables', 'formula_value_field': 'formula_values',
+                                            'formula_text_field': 'formula_text', 'formula_field': 'formula_id',
+                                        }" widget="formula_value_calculator" sum="Total Volume"/>
+                                    <field name="volume_uom_id" width="9"/>
+                                    <field name="defect_id" width="10"/>
+                                    <field name="remarks" width="9"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- cross.cut.log.line tree view -->
+    <record id="cross_cut_log_line_view_tree" model="ir.ui.view">
+        <field name="name">cross.cut.log.line.view.tree</field>
+        <field name="model">cross.cut.log.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="forest_id" column_invisible="1"/>
+                <field name="plot_id" column_invisible="1"/>
+                <field name="log_id" column_invisible="1"/>
+                <field name="tree_id" column_invisible="1"/>
+                <field name="name" width="9" readonly="1" force_save="1"/>
+                <field name="formula_id" width="10" readonly="1" force_save="1"/>
+                <field name="formula_html" class="o_field_formula_editor" width="10"
+                    optional="hide"/>
+                <field name="formula_text" width="10" column_invisible="True"/>
+                <field name="formula_variables" width="10" column_invisible="True"/>
+                <field name="formula_values" width="10" column_invisible="True"/>
+                <field name="quantity" width="10" options="{
+                    'formula_variable_field': 'formula_variables', 'formula_value_field': 'formula_values',
+                    'formula_text_field': 'formula_text', 'formula_field': 'formula_id',
+                }" widget="formula_value_calculator" sum="Total Volume"/>
+                <field name="volume_uom_id" width="9"/>
+                <field name="defect_id" width="10"/>
+                <field name="remarks" width="9"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="forest_cross_cut_search_view" model="ir.ui.view">
+        <field name="name">cross.cut.search</field>
+        <field name="model">cross.cut</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="forest_id"/>
+                <field name="forest_type_id"/>
+                <field name="supplier_id"/>
+                <field name="operator_id"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="cross_cut_action" model="ir.actions.act_window">
+        <field name="name">Cross Cut</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cross.cut</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

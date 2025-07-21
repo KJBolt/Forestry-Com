@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- formula.check.wizard form view -->
+    <record id="formula_check_wizard_view_form" model="ir.ui.view">
+        <field name="name">formula.check.wizard.view.form</field>
+        <field name="model">formula.check.wizard</field>
+        <field name="arch" type="xml">
+            <form string="formula check wizard">
+
+                <sheet>
+                    <field name="formula_id" invisible="1"/>
+                    <field name="variables" invisible="1"/>
+                    <field name="formula_values" invisible="1"/>
+
+                    <group>
+                        <field name="formula_text" readonly="1"/>
+                        <field name="formula_quantity" invisible="not formula_id" options="{
+                            'formula_variable_field': 'variables', 'formula_value_field': 'formula_values',
+                            'formula_text_field': 'formula_text', 'formula_field': 'formula_id',
+                        }" widget="formula_value_calculator"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_check_formula" string="Activate Formula" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    
+    <record id="formula_check_wizard_view_action" model="ir.actions.act_window">
+        <field name="name">Check Formula</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">formula.check.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="formula_check_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+    
+</odoo>

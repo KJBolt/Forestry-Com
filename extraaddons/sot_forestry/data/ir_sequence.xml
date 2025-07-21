@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    
+    <record id="seq_forest_reverse" model="ir.sequence">
+        <field name="name">Forest Reverse</field>
+        <field name="code">forest.reverse</field>
+        <field name="prefix">FRS</field>
+        <field name="padding">6</field>
+    </record>
+
+    <record id="seq_forest_tree_registration" model="ir.sequence">
+        <field name="name">Forest Tree Registration</field>
+        <field name="code">forest.tree.registration</field>
+        <field name="prefix">FSR</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_felling" model="ir.sequence">
+        <field name="name">Forest Tree Felling</field>
+        <field name="code">forest.tree.felling</field>
+        <field name="prefix">FTF</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_inforamtion" model="ir.sequence">
+        <field name="name">Forest Tree Information</field>
+        <field name="code">forest.tree.information</field>
+        <field name="prefix">TIF</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_cross_cut" model="ir.sequence">
+        <field name="name">Cross Cut</field>
+        <field name="code">cross.cut</field>
+        <field name="prefix">CSC</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_cross_cut_line" model="ir.sequence">
+        <field name="name">Cross Cut Line</field>
+        <field name="code">cross.cut.log.line</field>
+        <field name="prefix">CCS</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_hauling" model="ir.sequence">
+        <field name="name">Hauling</field>
+        <field name="code">hauling.hauling</field>
+        <field name="prefix">HS</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_waybill_lif" model="ir.sequence">
+        <field name="name">Way Bill LIF</field>
+        <field name="code">waybill.lif.sequence</field>
+        <field name="prefix">LIF</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_waybill_no" model="ir.sequence">
+        <field name="name">Way Bill</field>
+        <field name="code">waybill.waybill.sequence</field>
+        <field name="prefix">WB</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_forest_product_pricelist" model="ir.sequence">
+        <field name="name">Product Pricelist Sequence</field>
+        <field name="code">product.pricelist.sequence</field>
+        <field name="prefix">PP</field>
+        <field name="padding">5</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="sot_mrp_formula_builder.FormulaEditor">
+        <div class="o_field_char d-inline-flex flex-wrap mw-100 text-right" t-att-class="{'o_input': !props.readonly}" t-ref="formulaEditor">
+            <span  class="dynamic-input" t-if="props.readonly" t-esc="formulaValue()"/>
+            <div t-if="!props.readonly" class="o_input_formula d-inline-flex w-100" tabindex="0" t-ref="mainElement">
+                <div id="dynamic-input" class="dynamic-input" t-on-input="onchangeInputDiv" contenteditable="true"/>
+            </div>
+        </div>
+    </t>
+
+</templates>

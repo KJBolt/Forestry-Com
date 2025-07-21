@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_order_form_mrp_mto" model="ir.ui.view">
+        <field name="name">sale.order.form.mrp-mto</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='partner_details']" position="inside">
+                <field name="phone"/>
+                <field name="email"/>
+            </xpath>
+
+            <xpath expr="//header/field[@name='locked']" position="after">
+                <field name="direct_mrp_production_count" invisible="1"/>
+                <field name="active_mrp_production_count" invisible="1"/>
+                <button name="action_view_direct_mrp_production" groups="mrp.group_mrp_user"
+                        invisible="state!='sale' or active_mrp_production_count > 0" string="Production Order"
+                        type="object"
+                        class="btn-primary"/>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="action_view_direct_mrp_production" type="object" icon="fa-wrench"
+                        invisible="direct_mrp_production_count == 0" groups="mrp.group_mrp_user">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="direct_mrp_production_count"/></span>
+                        <span class="o_stat_text">MO's</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form//div[@name='ordered_qty']" position="after">
+                <div class="o_row" name="volume_qty">
+                    <field name="volume_qty"/>
+                    <field name="product_volume_uom_category_id" invisible="1"/>
+                    <field name="volume_uom_id" invisible="1" groups="!uom.group_uom"/>
+                    <field
+                        name="volume_uom_id"
+                        force_save="1"
+                        groups="uom.group_uom"
+                        class="oe_no_button"
+                        readonly="product_uom_readonly"
+                        required="not display_type"
+                    />
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="before">
+                <field name="volume_qty" decoration-info="(not display_type and invoice_status == 'to invoice')"
+                    decoration-bf="(not display_type and invoice_status == 'to invoice')"
+                    readonly="is_downpayment"/>
+                <field name="volume_uom_id"
+                    force_save="1"
+                    readonly="product_uom_readonly"
+                    required="not display_type"
+                    groups="uom.group_uom"
+                    options='{"no_open": True}'
+                    optional="show"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_category_id']" position="after">
+                <field name="product_volume_uom_category_id" column_invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

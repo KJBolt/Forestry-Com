@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_inactive_product_attribute" model="ir.cron">
+        <field name="name">Cron Inactive Product Attribute</field>
+        <field name="model_id" ref="product.model_product_attribute"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_inactive_product_attribute()</field>
+        <field name="active" eval="True"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=3, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+    </record>
+</odoo>

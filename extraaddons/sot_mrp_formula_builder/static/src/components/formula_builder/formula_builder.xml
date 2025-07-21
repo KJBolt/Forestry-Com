@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="sot_mrp_formula_builder.FormulaBuilder">
+
+        <div class="container">
+            <div class="row border rounded rounded-2 p-2 mt-5" style="min-height: 300px">
+                <legend>Create Dynamic Formula Variables</legend>
+                <div class="mb-3">
+                    <label for="formulaNameTextInput" class="form-label h3">Formula Name</label>
+                    <input type="text" id="formulaNameTextInput" t-att-value="props.formulaName" t-on-input="onFormulaNameChange" class="form-control" placeholder="e.g. Moulding Dw-Packing .."/>
+                </div>
+
+                <h3>Output Formula</h3>
+                <div class="d-flex align-items-center justify-content-between" t-if="state.outputFormula">
+                    <h4 class="text-warning border rounded-2 px-2 py-1 m-0" t-esc="state.outputFormula"></h4>
+                    <button type="submit" class="btn btn-danger" t-on-click.stop="(ev) => this.delFormulaText(ev)">Backspace</button>
+                </div>
+                <t t-if="state.outputFormula.length === 0">
+                    <div>
+                        <div class="alert alert-warning">Formula not generated yet!</div>
+                    </div>
+                </t>
+                <div class="d-flex gap-2 mt-3">
+                    <button type="submit" t-if="state.outputFormula" class="btn btn-success" t-on-click.stop="(ev) => this.saveFormula(ev)">Save</button>
+                    <button type="submit" t-if="state.outputFormula" class="btn btn-danger" t-on-click.stop="(ev) => this.clearFormulaText(ev)">Reset</button>
+                </div>
+            </div>
+
+            <div class="row mt-5 border rounded rounded-2 p-2">
+                <div class="col-md-8 col-sm-12">
+                    <div class="d-flex align-items-center">
+                        <h3 class="text-info mt-3">Variables</h3>
+                        <div class="bg-primary text-white text-nowrap rounded-2 border-2 h-50 p-1 mt-2 mx-4 d-flex align-items-center cursor-pointer" t-on-click.stop="openVariableFormDialog">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            <div clas="mr-2"/>
+                            <span>Add Variable</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mt-1" t-foreach="state.variables" t-as="item" t-key="item.id">
+                            <div class="btn btn-primary w-100 h-100" t-on-click.stop="(ev) => this.setFormula(ev, item.value)"><span t-esc="item.value"/></div>
+                        </div>
+                        <t t-if="state.variables.length === 0">
+                            <div class="col-12 mt-1">
+                                <div class="alert alert-warning">No variables added yet</div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <h3 class="text-info mt-3">Functions</h3>
+                    <div class="row">
+                        <div class="col-3 mt-1" t-foreach="state.functions" t-as="item" t-key="item.id">
+                            <div class="btn btn-primary w-100 h-100" t-on-click.stop="(ev) => this.setFormula(ev, item.value)"><span t-esc="item.value"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="text-info mt-3">Numbers</h3>
+                    <div class="row">
+                        <div class="col-3 mt-1" t-foreach="state.numbers" t-as="item" t-key="item.id">
+                            <div class="btn btn-primary w-100 h-100" t-on-click.stop="(ev) => this.setFormula(ev, item.value)"><span t-esc="item.value"/></div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-info mt-3">Operations</h3>
+                    <div class="row">
+                        <div class="col-3 mt-1" t-foreach="state.operations" t-as="item" t-key="item.id">
+                            <div class="btn btn-primary w-100 h-100" t-on-click.stop="(ev) => this.setFormula(ev, item.value)"><span t-esc="item.label || item.value"/></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

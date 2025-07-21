@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_formula_all,formula.formula no_group,model_formula_formula,,1,1,1,1
+access_formula_variable_all,formula.variable no_group,model_formula_variable,,1,1,1,1
+access_formula_function_all,formula.function no_group,model_formula_function,,1,1,1,1
+access_formula_check_wizard_all,formula.check.wizard no_group,model_formula_check_wizard,,1,1,1,1

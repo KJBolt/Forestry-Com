@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="access_mrp_contract" model="ir.model.access">
+        <field name="name">Contracts</field>
+        <field name="model_id" ref="model_mrp_contract"/>
+        <field name="group_id" ref="base.group_user"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="access_mrp_markings" model="ir.model.access">
+        <field name="name">Markings</field>
+        <field name="model_id" ref="model_mrp_markings"/>
+        <field name="group_id" ref="base.group_user"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="view_mrp_contract_form" model="ir.ui.view">
+        <field name="name">mrp.contract.form</field>
+        <field name="model">mrp.contract</field>
+        <field name="arch" type="xml">
+            <form string="Contracts">
+                <header>
+                    <field name="status" widget="statusbar" readonly="1" />
+                </header>
+                <sheet>
+                    <h2 class="oe_title">
+                        <field name="contract_no" placeholder="Contract No."/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="buyer_name"/>
+                            <field name="phone_no"/>
+                            <field name="email"/>
+                            <field name="date"/>
+                            <label for="delivery_start_date" string="Delivery Dates"/>
+                            <div class="o_row">
+                                <field name="delivery_start_date" widget="daterange" options="{'related_end_date': 'delivery_end_date'}" class="oe_inline" style="width: 45%;"/>
+                                <span style="margin: 0 8px;">→</span>
+                                <field name="delivery_end_date" widget="daterange" options="{'related_start_date': 'delivery_start_date'}" class="oe_inline" style="width: 45%;"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="representative"/>
+                            <field name="price"/>
+                            <field name="marking_ids" widget="many2many_tags" options="{'color': 2}" />
+                            <field name="specification_no"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <!-- Details Tab -->
+                        <page name="details" string="Product Details">
+                            <field name="products" widget="many2many">
+                                <tree editable="bottom">
+                                    <field name="name" string="Description"/>
+                                    <field name="qty_available" string="Quantity"/>
+                                    <field name="volume" string="Volume"/>
+                                    <field name="volume_uom_id" string="UoM"/>
+                                    <field name="list_price" string="Price"/>
+                                    <field name="amount" string="Amount"/>
+                                    <field name="remarks" string="Remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Destination Tab -->
+                        <page name="destination" string="Destination">
+                            <group>
+                                <group>
+                                    <field name="address_line1"/>
+                                    <field name="address_line2"/>
+                                    <field name="country"/>
+                                </group>
+                                <group>
+                                    <field name="city"/>
+                                    <field name="postal_code"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Payment Tab -->
+                        <page name="payment" string="Payment">
+                            <group>
+                                <group>
+                                    <field name="date_of_payment"/>
+                                    <field name="mode_of_payment"/>
+                                </group>
+                                <group>
+                                    <field name="amount"/>
+                                    <field name="terms_of_payment"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_mrp_contract_tree" model="ir.ui.view">
+        <field name="name">mrp.contract.tree</field>
+        <field name="model">mrp.contract</field>
+        <field name="arch" type="xml">
+            <tree string="Contracts">
+                <field name="contract_no" />
+                <field name="buyer_name"/>
+                <field name="phone_no"/>
+                <field name="email"/>
+                <field name="date"/>
+                <field name="representative"/>
+                <field name="price"/>
+                <field name="specification_no"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_mrp_contract" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">mrp.contract</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem 
+        id="menu_mrp_contract" 
+        name="Contracts" 
+        parent="mrp.menu_mrp_manufacturing" 
+        action="action_mrp_contract" 
+        sequence="0"
+    />
+
+
+
+
+</odoo>

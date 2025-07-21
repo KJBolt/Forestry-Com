@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="forest_tree_line_view_tree" model="ir.ui.view">
+        <field name="name">forest_tree_line_view_tree_view_tree</field>
+        <field name="model">forest.tree.line</field>
+        <field name="arch" type="xml">
+            <tree string="forest_tree_line_view_tree_tree" editable="bottom" sample="1">
+                <field name="name" width="10" readonly="approved" required="1"></field>
+                <field name="forest_reverse_id" width="10" readonly="approved" required="1"></field>
+                <field name="plot_compartment_id" width="10" readonly="approved" required="1"></field>
+                <field name="product_id" width="10" readonly="approved" required="1"></field>
+                <field name="diameter" width="5" readonly="approved" required="1"></field>
+                <field name="uom_id" width="5" readonly="approved" required="1"></field>
+                <field name="condition_score" width="10" readonly="approved"></field>
+                <field name="latitude" width="10" readonly="approved" required="1"></field>
+                <field name="longitude" width="10" readonly="approved" required="1"></field>
+                <field name="approved" readonly="1" force_save="1" width="10"></field>
+                <field name="is_used" column_invisible="1" force_save="1" width="10"></field>
+                <field name="state" width="10" readonly="1" force_save="1" widget="badge" required="1"
+                       decoration-info="state == 'standing'"
+                       decoration-success="state == 'fallen'"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="forest_tree_line_view_graph">
+        <field name="name">forest.tree.line</field>
+        <field name="model">forest.tree.line</field>
+        <field name="type">graph</field>
+        <field name="arch" type="xml">
+            <graph string="Trees" type="bar">
+                <field name="forest_reverse_id" group="True"/>
+                <field name="plot_compartment_id" operator="*"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="forest_tree_line_action" model="ir.actions.act_window">
+        <field name="name">Trees</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">forest.tree.line</field>
+        <field name="view_mode">tree,graph</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': True, 'duplicate': False}</field>
+    </record>
+
+    <record id="action_approve_forest_tree_lines" model="ir.actions.server">
+        <field name="name">Approve Selected Trees</field>
+        <field name="model_id" ref="sot_forestry.model_forest_tree_line"/>
+        <field name="binding_model_id" ref="sot_forestry.model_forest_tree_line"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.action_approve()
+        </field>
+    </record>
+
+    <record id="action_refuse_forest_tree_lines" model="ir.actions.server">
+        <field name="name">Un Approve Selected Trees</field>
+        <field name="model_id" ref="sot_forestry.model_forest_tree_line"/>
+        <field name="binding_model_id" ref="sot_forestry.model_forest_tree_line"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.action_unapprove()
+        </field>
+    </record>
+
+
+</odoo>

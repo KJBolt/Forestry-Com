@@ -1,0 +1,41 @@
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+}
+.section {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    width:350px;
+}
+.section h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+}
+.section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.section table th, .section table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.section table th {
+    background-color: #f2f2f2;
+}
+.section table td {
+    text-align: center;
+}
+.chartjs-legend {
+    margin-left: 40px; /* Add margin-left */
+}
+@media(max-width:600px){
+    .web_config_card{
+        width:100%;
+        margin-left:0px;
+    }
+}

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="Forestry.Dashboard" owl="1">
+        <div class="vh-100 bg-muted overflow-auto p-2">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+            <div class="row m-3 mb-5 pb-5">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col m-0 p-0">
+                            <div class="">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h3 class="" style="font-weight:600;color:#848CA1">
+                                            Hi, Welcome Back!
+                                        </h3>
+                                        <h1 class="" style="font-size:30px;font-weight:600">
+                                            Forestry Dashboard
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px">
+                        <div class="col-md-4 col-12">
+                            <!-- Dashboard Sections -->
+                            <div class="dashboard">
+                                <div class="section mb-3">
+                                    <h3 class="fw-bold" style="font-size:20px">
+                                        Document Approve for my action
+                                    </h3>
+                                    <table>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="ViewApproved">
+                                                Tree Fell
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.approved['forest.tree.felling']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="CrossCutViewApproved">
+                                                Cross Cut
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.approved['cross.cut']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="HaulingViewApproved">
+                                                Hauling
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.approved['hauling.hauling']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="LogInformationFormViewApproved">
+                                                Log Information Form
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.approved['waybill.waybill']"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="section mb-3">
+                                    <h3 class="fw-bold" style="font-size:20px">
+                                        Document pending with Others
+                                    </h3>
+                                    <table>
+                                        <tr t-on-click="viewPendingWithOthersTreeFelling">
+                                            <th class="fw-medium">
+                                                Tree Fell
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.pendingWithOthers['forest.tree.felling']"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-on-click="viewPendingWithOthersCrossCut">
+                                            <th class="fw-medium">
+                                                Cross Cut
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.pendingWithOthers['cross.cut']"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-on-click="viewPendingWithOthersHauling">
+                                            <th class="fw-medium">
+                                                Hauling
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.pendingWithOthers['hauling.hauling']"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-on-click="viewPendingWithOthersLogInformation">
+                                            <th class="fw-medium">
+                                                Log Information Form
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.pendingWithOthers['waybill.waybill']"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="section mb-3">
+                                    <h3 class="fw-bold" style="font-size:20px">
+                                        My Unposted Documents
+                                    </h3>
+                                    <table>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="ViewDraft">
+                                                Tree Fell
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.draft['forest.tree.felling']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="CrossCutViewDraft">
+                                                Cross Cut
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.draft['cross.cut']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="HaulingViewDraft">
+                                                Hauling
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.draft['hauling.hauling']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="fw-medium" t-on-click="LogInformationFormViewDraft">
+                                                Log Information Form
+                                            </th>
+                                            <td>
+                                                <t t-esc="state.draft['waybill.waybill']"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="forest-wise-yield-tab" data-bs-toggle="tab" data-bs-target="#forest-wise-yield" type="button" role="tab" aria-controls="forest-wise-yield" aria-selected="true">Forest Wise Yield</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="species-wise-logs-tab" data-bs-toggle="tab" data-bs-target="#species-wise-logs" type="button" role="tab" aria-controls="species-wise-logs" aria-selected="false">Species Wise Logs</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="forest-wise-yield" role="tabpanel" aria-labelledby="forest-wise-yield-tab">
+                                    <div class="p-2" style="border-radius:10px; width: 500px; height: 500px;">
+                                        <ChartRenderer type="'pie'" title="'Forestry Chart'" config="state.CollectionChart"/>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="species-wise-logs" role="tabpanel" aria-labelledby="species-wise-logs-tab">
+                                    <div class="p-2" style="border-radius:10px; width: 600px; height: 600px;">
+                                        <ChartRenderer type="'pie'" title="'Species Wise Logs'" config="state.SpeciesChart"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                console.log('Dashboard Loaded');
+                var today = new Date().toISOString().split('T')[0];
+                $('#toDate').val(today);
+            });
+        </script>
+    </t>
+</templates>

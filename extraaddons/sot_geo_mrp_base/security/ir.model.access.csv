@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_workcenter_shift_all,mrp.workcenter.shift no_group,model_mrp_workcenter_shift,,1,1,1,1
+access_mrp_workcenter_manpower_all,mrp.workcenter.manpower no_group,model_mrp_workcenter_manpower,,1,1,1,1
+access_mrp_production_org_all,mrp.production.org no_group,model_mrp_production_org,,1,1,1,1
+access_mrp_production_batch_all,mrp.production.batch no_group,model_mrp_production_batch,,1,1,1,1
+access_mrp_production_batch_line_all,mrp.production.batch.line no_group,model_mrp_production_batch_line,,1,1,1,1
+access_mrp_workorder_area_all,mrp.workorder.area no_group,model_mrp_workorder_area,,1,1,1,1
+access_mrp_random_formula_calculator_all,mrp.random.formula.calculator no_group,model_mrp_random_formula_calculator,,1,1,1,1

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_inherit_form_view" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.partner-type</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="customer_type" widget="radio" options="{'horizontal': true}" readonly="context.get('customer_type_readonly',False)" force_save="1"/>
+            </xpath>
+            <!-- <xpath expr="//field[@name='company_type']" position="replace">
+                <field name="company_type" widget="radio" options="{'horizontal': true}"/>
+            </xpath> -->
+        </field>
+    </record>
+
+    <record id="res_partner_action_supplier_partners" model="ir.actions.act_window">
+        <field name="name">Suppliers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_supplier': 1, 'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1, 'default_customer_type': 'supplier'}</field>
+        <field name="domain">[('customer_type', '=', 'supplier')]</field>  
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new supplier in your address book
+            </p>
+            <p>
+                Odoo helps you easily track all activities related to a supplier.
+            </p>
+        </field>
+    </record>
+    <record id="res_partner_action_drivers_partners" model="ir.actions.act_window">
+        <field name="name">Drivers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{"search_default_driver":1, 'default_customer_type': 'driver'}</field>
+        <field name="domain">[('customer_type', '=', 'driver')]</field>   
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new driver in your address book
+            </p>
+            <p>
+                Odoo helps you easily track all activities related to a driver.
+            </p>
+        </field>
+    </record>
+
+    <record id="res_partner_action_customers_partners" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{"search_default_customer":1, 'default_customer_type': 'customer'}</field>
+        <field name="domain">[('customer_type', '=', 'customer')]</field>     
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new customer in your address book
+            </p>
+            <p>
+                Odoo helps you easily track all activities related to a customer.
+            </p>
+        </field>
+    </record>
+
+    <record id="res_partner_action_range_supervisors_partners" model="ir.actions.act_window">
+        <field name="name">Range Supervisors</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{"search_default_range_supervisor":1, 'default_customer_type': 'range_supervisor'}</field>
+        <field name="domain">[('customer_type', '=', 'range_supervisor')]</field>     
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new range supervisor in your address book
+            </p>
+            <p>
+                Odoo helps you easily track all activities related to a range supervisor.
+            </p>
+        </field>
+    </record>
+
+</odoo>

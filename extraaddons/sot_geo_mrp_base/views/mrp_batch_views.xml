@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="mrp_production_batch_tree" model="ir.ui.view">
+        <field name="name">mrp.production.batch.tree</field>
+        <field name="model">mrp.production.batch</field>
+        <field name="arch" type="xml">
+            <tree string="Manufacturing Batch Operation">
+                <field name="name"/>
+                <field name="order_date"/>
+                <field name="source_type"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="phone"/>
+                <field name="commitment_date"/>
+                <field name="note"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mrp_production_batch_form" model="ir.ui.view">
+        <field name="name">mrp.production.batch.form</field>
+        <field name="model">mrp.production.batch</field>
+        <field name="arch" type="xml">
+            <form string="Manufacturing Batch Operation">
+                <field name="active" invisible="1"></field>
+                <header>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'draft'"
+                            class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="bg-danger text-white"
+                            invisible="state not in ('draft',)"/>
+                    <button name="action_close" type="object" string="Close" class="btn-success"
+                            invisible="state not in ('approved',)"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state not in ('cancel',)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+
+                <sheet>
+                    <label for="name" string="Serial No."/>
+                    <h1 class="oe_title">
+                        <field name="name" nolabel="1"></field>
+                    </h1>
+
+                    <!-- Hide Sales Orders and Job Execution buttons widgets -->
+                    <!-- <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_view_direct_sale_orders" type="object"
+                                icon="fa-dollar"
+                                invisible="not sale_order_id">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Sale Orders</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="action_view_mrp_production" type="object"
+                                icon="fa-wrench"
+                                invisible="state == 'draft'">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="production_count"/></span>
+                                <span class="o_stat_text">Job Execution</span>
+                            </div>
+                        </button>
+                    </div> -->
+
+                    <group name="main">
+                        <group>
+                            <field name="order_date" readonly="state != 'draft'" required="1"/>
+                            <field name="commitment_date" readonly="state != 'draft'" required="1"/>
+                            <field name="source_type" readonly="state != 'draft'" required="1"/>
+                            <field name="sale_order_id" invisible="source_type!='sale_order'"
+                                required="source_type=='sale_order'"
+                                domain="[('partner_id','=?',partner_id)]"
+                                readonly="state != 'draft'"/>
+                            <field 
+                                name="contract_ref" 
+                                invisible="source_type!='contract'" 
+                                readonly="state!='draft'" 
+                                required="source_type=='contract'" 
+                            />
+                        </group>
+                        <group>
+                            <field name="partner_id" widget="res_partner_many2one" force_save="1"
+                                context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"
+                                placeholder="Type to find a customer..." readonly="state != 'draft' or sale_order_id"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                        </group>
+                    </group>
+                    <separator string="Remarks"/>
+                    <field name="note" placeholder="Write your remarks here.." readonly="state != 'draft'"/>
+
+                    <notebook>
+                        <page string="Output Items">
+                            <field name="order_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="sale_line_id" column_invisible="1"/>
+                                    <field name="product_id" width="20"/>
+                                    <field name="volume_qty" width="20"/>
+                                    <field name="volume_uom_id" width="20"/>
+                                    <field name="product_qty" width="20"/>
+                                    <field name="uom_id" width="20"/>
+                                    <field name="note" width="20"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="Miscellaneous">
+                            <group>
+                                <field name="company_id"/>
+                                <field name="group_id" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="mrp_production_batch_action" model="ir.actions.act_window">
+        <field name="name">Manufacturing Orders</field>
+        <field name="res_model">mrp.production.batch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

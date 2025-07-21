@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="mrp_extension_form_views" model="ir.ui.view">
+        <field name="name">mrp.production.form.extension</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="action_view_mrp_batch" type="object" icon="fa-wrench"
+                        invisible="not mrp_batch_id" groups="mrp.group_mrp_user">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">MO's</span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" name="action_view_sale_order" type="object" icon="fa-dollar"
+                        invisible="not sale_order_id" groups="mrp.group_mrp_user">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Sale Orders</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <field name="lot_producing_id" position="attributes">
+                <attribute name="readonly">state not in ('draft', 'confirmed')</attribute>
+            </field>
+
+            <field name="product_id" position="before">
+                <field name="sequence"/>
+            </field>
+
+            <field name="product_qty" position="after">
+                <field name="formula_variables" invisible="1"/>
+                <field name="formula_values" invisible="1"/>
+            </field>
+
+            <field name="user_id" position="before">
+                <field name="certification_status_id" readonly="state != 'draft'" required="1"/>
+                <field name="moisture_content"/>
+            </field>
+
+            <!-- Add Contract Ref -->
+            <xpath expr="//field[@name='sequence']" position="after">
+                <field name="contract_id" required="1"/>
+            </xpath>
+
+            <!-- Hide Origin Field in Miscellaneous Tab -->
+            <xpath expr="//page[@name='miscellaneous']//field[@name='origin']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='bom_id']" position="after">
+                <field name="mrp_batch_id" invisible="1"/>
+                <field name="sale_order_id" invisible="1"/>
+                <field name="product_volume_uom_category_id" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//label[@for='bom_id']" position="before">
+                <label for="formula_id" string="Volume" invisible="not formula_id"/>
+                <div class="o_row" invisible="not formula_id">
+                    <field name="formula_quantity" invisible="not formula_id" options="{
+                        'formula_variable_field': 'formula_variables', 'formula_value_field': 'formula_values',
+                        'formula_text_field': 'formula_text', 'formula_field': 'formula_id',
+                    }" widget="formula_value_calculator" readonly="state not in ('draft','confirmed')"/>
+                    <field name="volume_unit" readonly="state != 'draft'"/>
+                </div>
+                <field name="formula_type" readonly="state != 'draft'" invisible="not formula_id"/>
+            </xpath>
+
+            <xpath expr="//page[@name='miscellaneous']/group/group[2]" position="inside">
+                <field name="issue_no" readonly="state != 'draft'"/>
+                <field name="receipt_no" readonly="state != 'draft'"/>
+            </xpath>
+
+            <xpath expr="//page[@name='miscellaneous']/group[1]" position="inside">
+                <group string="Volume Formula" name="volume_formula">
+                    <field name="formula_id" readonly="state != 'draft'"
+                        options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                    <field name="formula_type" readonly="state != 'draft'"/>
+                    <field name="validate_quantity"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//page[@name='miscellaneous']" position="before">
+                <page string="Random" invisible="formula_type!='random_size'">
+                    <separator string="Width Calculation"/>
+                    <field name="random_width_ids" readonly="state != 'draft'" context="{'default_value_type':'width'}">
+                        <tree editable="bottom">
+                            <field name="note" width="20"/>
+                            <field name="dimension" width="20" string="Width"></field>
+                            <field name="quantity" width="30"></field>
+                            <field name="total" sum="Total" width="30"></field>
+                            <field name="value_type" column_invisible="1"></field>
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="note"/>
+                                <field name="dimension"/>
+                                <field name="quantity"/>
+                                <field name="total"/>
+                                <field name="value_type"/>
+                            </group>
+                        </form>
+                    </field>
+
+                    <separator string="Length Calculation"/>
+                    <field name="random_length_ids" readonly="state != 'draft'"
+                        context="{'default_value_type':'length'}">
+                        <tree editable="bottom">
+                            <field name="note" width="20"/>
+                            <field name="dimension" width="20" string="Length"></field>
+                            <field name="quantity" width="30"></field>
+                            <field name="total" sum="Total" width="30"></field>
+                            <field name="value_type" column_invisible="1"></field>
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="note"/>
+                                <field name="dimension"/>
+                                <field name="quantity"/>
+                                <field name="total"/>
+                                <field name="value_type"/>
+                            </group>
+                        </form>
+                    </field>
+
+                </page>
+                <page string="Organization">
+                    <field name="organization_ids" readonly="state != 'draft'">
+                        <tree editable="bottom">
+                            <field name="name" width="50" placeholder="Organization"></field>
+                            <field name="active" width="50"></field>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="mrp_production_workorder_tree_editable_view_geo" model="ir.ui.view">
+        <field name="name">mrp.production.work.order.tree.geo</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="operation_id" required="1"/>
+                <field name="shift_id" required="1"/>
+                <field name="req_area_id" required="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_workorder_area_form" model="ir.ui.view">
+        <field name="name">workorder.area.form</field>
+        <field name="model">mrp.workorder.area</field>
+        <field name="arch" type="xml">
+            <form string="Work Center Area">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Remark">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Job Execution Tree View Extension -->
+    <record id="mrp_extension_tree_views" model="ir.ui.view">
+        <field name="name">mrp.production.tree.extension</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="replace">
+                <tree>
+                    <field name="name" />
+                    <field name="contract_id"/>
+                    <field name="product_id" />
+                    <!-- <field name="availability" /> -->
+                    <field name="product_qty" />
+                    <field name="product_uom_id" />
+                    <field name="state" />
+                </tree>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Job Execution Search View Extension -->
+    <record id="mrp_production_search_view_extension" model="ir.ui.view">
+        <field name="name">mrp.production.search.extension</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="replace">
+                <search string="Search Manufacturing Orders">
+                    <field name="name" string="Reference"/>
+                    <field name="contract_id"/>
+                    <field name="product_id"/>
+                    <separator/>
+                    <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                    <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="product" context="{'group_by': 'product_id'}"/>
+                        <filter string="Contract" name="contract" context="{'group_by': 'contract_id'}"/>
+                        <filter string="Status" name="status" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="view_workorder_area_tree" model="ir.ui.view">
+        <field name="name">workorder.area.tree</field>
+        <field name="model">mrp.workorder.area</field>
+        <field name="arch" type="xml">
+            <tree string="Work Center Areas">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_workcenter_area" model="ir.actions.act_window">
+        <field name="name">Work Order Areas</field>
+        <field name="res_model">mrp.workorder.area</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_workcenter_area" name="Work Center Areas" parent="mrp.menu_mrp_configuration"
+        action="action_workcenter_area" sequence="110"/>
+
+</odoo>

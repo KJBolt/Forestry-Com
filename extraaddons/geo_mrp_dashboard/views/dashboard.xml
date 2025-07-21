@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="action_mafufacturing_dashboard" model="ir.actions.client">
+            <field name="name">Dashboard</field>
+            <field name="tag">MrpDashboard</field>
+        </record>
+    </data>
+</odoo>

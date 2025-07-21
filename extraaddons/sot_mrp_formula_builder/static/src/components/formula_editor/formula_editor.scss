@@ -1,0 +1,19 @@
+.o_field_formula_editor {
+
+    .dynamic-input {
+        width: 100%;
+        white-space: pre-wrap; /* Allows wrapping */
+    }
+    .variable-span {
+        background-color: #e3f2fd;
+        color: #0d47a1;
+        padding: 3px 5px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+    .variable-span.functions {
+        background-color: #f0f4c3;
+        color: #827717;
+        font-style: italic;
+    }
+}

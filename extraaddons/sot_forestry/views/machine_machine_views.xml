@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="machine_machine_tree" model="ir.ui.view">
+        <field name="name">machine.machine.tree</field>
+        <field name="model">machine.machine</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="sequence" widget="handle"></field>
+                <field name="name"></field>
+                <field name="note"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="machine_machine_form" model="ir.ui.view">
+        <field name="name">machine.machine.form</field>
+        <field name="model">machine.machine</field>
+        <field name="arch" type="xml">
+            <form string="Plot/Compartment">
+                <field name="active" invisible="1"></field>
+                <field name="sequence" invisible="1"></field>
+                <sheet>
+                    <group name="main">
+                        <group>
+                            <field name="name"></field>
+                            <field name="note"></field>
+                        </group>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="machine_machine_action" model="ir.actions.act_window">
+        <field name="name">Machine</field>
+        <field name="res_model">machine.machine</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

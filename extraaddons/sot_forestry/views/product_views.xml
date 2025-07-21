@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product_template_form_view volume-uom</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='uom_po_id']" position="after">
+                <field name="volume_uom_id" groups="uom.group_uom" options="{'no_create': True}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='description']/.." position="before">
+                <group string="Formula" name="formula">
+                    <group>
+                        <field name="formula_id" options="{'no_create': True}"/>
+                        <field name="tif_formula_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="formula_html" class="o_field_formula_editor"/>
+                        <field name="tif_formula_html" class="o_field_formula_editor"/>
+                    </group>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

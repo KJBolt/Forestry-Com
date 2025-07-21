@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<template>
+    <t t-name="Forestry.KpiCardDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+     <t t-name="Forestry.CrossCutDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+     <t t-name="Forestry.HaulingDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+     <t t-name="Forestry.LogInformationDraft" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+
+     <t t-name="Forestry.KpiCardCancel" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    
+    <t t-name="Forestry.KpiCardApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    <t t-name="Forestry.CrossCutApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    <t t-name="Forestry.HaulingApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+    <t t-name="Forestry.LogInformationApproved" owl="2">
+        <span t-esc="props.total" t-on-click="props.onClick"/>
+    </t>
+</template>

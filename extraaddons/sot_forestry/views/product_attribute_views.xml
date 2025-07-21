@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="product_attribute_forestry_form" model="ir.ui.view">
+        <field name="name">product_attribute_forestry.form</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form"/>
+        <field name="arch" type="xml">
+
+            <field name="number_related_products" position="after">
+                <field name="active" invisible="1"/>
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                        invisible="active"/>
+            </field>
+
+            <xpath expr="//group[@name='sale_main_fields']" position="after">
+                <group name="sale_main_fields">
+                    <field name="inactive_datetime"/>
+                    <field name="inactive_reason" required="inactive_datetime != False"/>
+                </group>
+            </xpath>
+            
+             <xpath expr="//field[@name='name']" position="after">
+                    <field name="is_species"/>
+            </xpath>
+
+            
+
+            <field name="is_custom" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+
+            <xpath expr="//field[@name='display_type']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='create_variant']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='attribute_values']" position="after">
+                <page name="other_info" string="Other Info">
+                    <group>
+                        <group>
+                            <field name="display_type" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="create_variant" widget="radio" readonly="number_related_products != 0"/>
+                        </group>
+                    </group>
+                </page>
+                <page name="note" string="Description" placeholder="Write some details here...">
+                    <field name="note"/>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='value_ids']/tree//field[@name='name']" position="after">
+                <field name="scientific_name"/>
+                <field name="species"/>
+                <field name="note"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_attribute_forestry_search" model="ir.ui.view">
+        <field name="name">product.attribute.forestry.search</field>
+        <field name="model">product.attribute</field>
+        <field name="arch" type="xml">
+            <search string="test_otp_view_search">
+                <field name="name"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

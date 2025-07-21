@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="sot_report_header_filters">
+        <table style="width: 100%;" class="mt-20 table table-borderless table-report">
+            <tbody>
+                <tr>
+                    <td style="white-space: nowrap;">
+                        <div class="d-flex align-items-center">
+                            <div class="font-weight-bold text-left">
+                                <div t-foreach="left_item_list" t-as="item" t-esc="item[0]"/>
+                            </div>
+                            <div class="px-2 font-weight-bold text-left">
+                                <div t-foreach="left_item_list" t-as="item">:</div>
+                            </div>
+                            <div class="text-left">
+                                <div t-foreach="left_item_list" t-as="item" t-esc="item[1]"/>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td style="white-space: nowrap;" align="right">
+                        <div class="d-flex align-items-center justify-content-end text-left">
+                            <div class="font-weight-bold">
+                                <div t-foreach="right_item_list" t-as="item" t-esc="item[0]"/>
+                            </div>
+                            <div class="px-2 font-weight-bold">
+                                <div t-foreach="right_item_list" t-as="item">:</div>
+                            </div>
+                            <div class="text-left">
+                                <div t-foreach="right_item_list" t-as="item" t-esc="item[1]"/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <template id="report_sot_forestry_waybill_template" name="WayBill Report Template">
+        <t t-call="web.html_container">
+            <style>
+                .table-large-cell td {
+                    padding: 10px;
+                }
+            </style>
+
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="center" style="margin-bottom: 20px;">
+                        <h1 style="font-size: 24px; margin-top: 20px;">Forestry WayBill</h1>
+                    </div>
+
+                    <t t-call="sot_forestry.sot_report_header_filters">
+                        <t t-set="left_item_list" t-value="[['Compartment', doc.plot_id.display_name], ['Date And Time', doc.lif_date], ['LIF No', doc.lif_number], ['Remarks', doc.remarks]]"/>
+                        <t t-set="right_item_list"
+                           t-value="[['WayBill No', doc.waybill_no], ['WayBill Date', doc.waybill_date], ['Vehicle No', doc.vehicle_id.display_name],
+                           ['Driver Name', doc.driver_id.display_name], ['Certification Status', doc.forest_id.certification_status_id.display_name]]"/>
+                    </t>
+
+                    <div class="center">
+                        <div class="table-responsive">
+                            <table t-attf-class="table table-bordered {{doc.log_line_ids and 'table-sm' or 'table-large-cell'}} table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#SL</th>
+                                        <th>Species</th>
+                                        <th>Tree No</th>
+                                        <th>Log No</th>
+                                        <th>D1</th>
+                                        <th>D2</th>
+                                        <th>D3</th>
+                                        <th>D4</th>
+                                        <th>Length</th>
+                                        <th>Volume</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="sl" t-value="0"/>
+                                    <t t-if="len(doc.log_line_ids)>0" t-foreach="doc.log_line_ids" t-as="line">
+                                        <tr>
+                                            <td><t t-esc="sl+1"/></td>
+                                            <td>
+                                                <span t-field="line.log_id.tree_id.species_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.log_id.tree_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.log_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.db1"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.db2"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.dt1"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.dt2"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.length"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.volume"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="empty_lines" t-value="[0,1,2,3,4,5,6,7,8,9]"/>
+                                        <tr t-foreach="empty_lines" t-as="line">
+                                            <td><t t-esc="line+1"/></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

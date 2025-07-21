@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="formula_function_pi" model="formula.function">
+            <field name="name">pi</field>
+            <field name="function_name">pi</field>
+            <field name="sample_formula">pi=3.141592653589793</field>
+        </record>
+
+        <record id="formula_function_power" model="formula.function">
+            <field name="name">power</field>
+            <field name="function_name">power</field>
+            <field name="content_editable" eval="True"/>
+            <field name="sample_formula">2**(2)</field>
+        </record>
+
+        <record id="formula_function_sqrt" model="formula.function">
+            <field name="name">square root</field>
+            <field name="function_name">sqrt</field>
+            <field name="content_editable" eval="True"/>
+            <field name="sample_formula">sqrt(4)=2</field>
+        </record>
+
+        <record id="formula_function_sin" model="formula.function">
+            <field name="name">sin</field>
+            <field name="function_name">sin()</field>
+            <field name="content_editable" eval="True"/>
+            <field name="sample_formula">sin(0)=0</field>
+        </record>
+
+        <record id="formula_function_cos" model="formula.function">
+            <field name="name">cos</field>
+            <field name="function_name">cos</field>
+            <field name="content_editable" eval="True"/>
+            <field name="sample_formula">cos(0)=1</field>
+        </record>
+
+        <record id="formula_function_tan" model="formula.function">
+            <field name="name">tan</field>
+            <field name="function_name">tan</field>
+            <field name="content_editable" eval="True"/>
+            <field name="sample_formula">tan(0)=0</field>
+        </record>
+
+        <record id="formula_function_exp" model="formula.function">
+            <field name="name">exp</field>
+            <field name="function_name">exp</field>
+            <field name="content_editable" eval="True"/>
+            <field name="sample_formula">exp(1)=2.718281828459045</field>
+        </record>
+
+        <record id="formula_function_abs" model="formula.function">
+            <field name="name">absolute</field>
+            <field name="function_name">abs</field>
+            <field name="content_editable" eval="True"/>
+            <field name="sample_formula">abs(-1)=1</field>
+        </record>
+
+    </data>
+</odoo>

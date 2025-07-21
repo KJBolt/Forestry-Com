@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="forest_tree_registration_tree_view" model="ir.ui.view">
+        <field name="name">forest.tree.registration.tree</field>
+        <field name="model">forest.tree</field>
+        <field name="arch" type="xml">
+            <tree js_class="custom_import_button" string="forest" import="0">
+                <field name="name"></field>
+                <field name="forest_reverse_id"></field>
+                <field name="plot_compartment_id"></field>
+                <field name="remarks"></field>
+                <field name="create_date" string="Document Date"></field>
+                <field name="state" width="10" widget="badge"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'approved'"
+                    decoration-danger="state == 'cancel'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="forest_tree_registration_form_view" model="ir.ui.view">
+        <field name="name">forest.tree.registration.form</field>
+        <field name="model">forest.tree</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="set_approved" type="object" string="Approve" invisible="state != 'draft'"
+                            class="btn-primary"/>
+                    <button name="set_cancel" type="object" string="Cancel" invisible="state not in ('draft',)"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state not in ('cancel')"/>
+                    <field name="state" widget="statusbar" string="Status" statusbar_visible="draft,approved"/>
+                </header>
+                <field name="active" invisible="1"></field>
+                <sheet>
+                    <label for="name"/>
+                    <h1 class="oe_title">
+                        <field name="name" nolabel="1"></field>
+                    </h1>
+
+                    <group>
+                        <group name="main">
+                            <field name="forest_reverse_id" required="1" readonly="state != 'draft'"
+                                domain="[('state','=','approved')]"
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"></field>
+                            <field name="plot_compartment_id" required="1" readonly="state != 'draft'"
+                                domain="[('reverse_id','=',forest_reverse_id), ('reverse_id.state','=','approved'),('active','=',True)]"
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="stripe_id" readonly="state != 'draft'"
+                                domain="[('reserve_line_id','=',plot_compartment_id)]"
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"></field>
+                        </group>
+                        <group name="2nd">
+                            <field name="latitude"></field>
+                            <field name="longitude"></field>
+                            <field name="remarks" readonly="state != 'draft'"></field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Compartment Details">
+                            <field name="line_ids" readonly="state!='draft'">
+                                <tree editable="bottom">
+                                    <field name="approved" column_invisible="1"></field>
+                                    <field name="state" column_invisible="1"></field>
+                                    <field name="name" required="1" width="14"></field>
+                                    <field name="product_id" required="1" width="20"></field>
+                                    <field name="diameter" required="1" width="10"></field>
+                                    <field name="uom_id" width="10"></field>
+                                    <field name="condition_score" required="1" width="12"></field>
+                                    <field name="latitude" width="12"></field>
+                                    <field name="longitude" width="12"></field>
+                                    <field name="approved" column_invisible="1" ></field>
+                                    <field name="state" column_invisible="1"></field>
+                                    <button name="preview_lat_log" column_invisible="not parent.id" type="object" title="Direction" class="btn-primary" icon="fa-compass"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="forest_tree_registration_search_view" model="ir.ui.view">
+        <field name="name">forest.tree.registration.search</field>
+        <field name="model">forest.tree</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="plot_compartment_id"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="forest_tree_registration_action" model="ir.actions.act_window">
+        <field name="name">Forest Tree Registration</field>
+        <field name="res_model">forest.tree</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="forest_tree_registration_search_view"></field>
+    </record>
+
+    <!-- <record id="forest_tree_registration_inherit" model="ir.ui.view">
+        <field name="name">forest.tree.registration.inherit</field>
+        <field name="model">forest.tree</field>
+        <field name="inherit_id" ref="sot_forestry.forest_tree_registration_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree[@id='forest_tree_registration']" position="attributes">
+                <attribute name="js_class">custom_import_button</attribute>
+            </xpath>
+        </field>
+    </record> -->
+
+</odoo>

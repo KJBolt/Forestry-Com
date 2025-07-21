@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="forest_tree_felling_tree_view" model="ir.ui.view">
+        <field name="name">forest.tree.felling.tree</field>
+        <field name="model">forest.tree.felling</field>
+        <field name="arch" type="xml">
+            <tree string="forest">
+                <field name="name"/>
+                <field name="forest_reverse_id"/>
+                <field name="plot_compartment_id"/>
+                <field name="operator_id"/>
+                <field name="machine_id"/>
+                <field name="tree_fell_date"/>
+                <field name="state" width="10" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'cancel'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="forest_tree_felling_form_view" model="ir.ui.view">
+        <field name="name">forest.tree.felling.form</field>
+        <field name="model">forest.tree.felling</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <field invisible="1" name="active"/>
+
+                <header>
+                    <button name="action_approve" string="Approve" invisible="state != 'draft'" type="object"
+                            class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel" invisible="state != 'draft'" type="object"
+                            class="bg-danger text-white"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state not in ('cancel',)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+
+                <sheet>
+                    <h1 class="oe_title">
+                        <field name="name" nolabel="1"/>
+                    </h1>
+
+                    <group>
+                        <group name="main">
+                            <field name="forest_reverse_id" required="1" readonly="state != 'draft'"
+                                   domain="[('state','=','approved')]"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="plot_compartment_id" required="1" readonly="state != 'draft'"
+                                   domain="[('reverse_id','=',forest_reverse_id), ('reverse_id.state','=','approved')]"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="operator_id" required="1" readonly="state != 'draft'"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                            <field name="machine_id" required="1" readonly="state != 'draft'"
+                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                        </group>
+                        <group name="2nd">
+                            <field name="machine_run_time" required="1" readonly="state != 'draft'"
+                                   widget="float_time"/>
+                            <field name="tree_fell_date" required="1" readonly="state != 'draft'"/>
+                            <field name="reset_count" invisible="1"/>
+                            <field name="remarks" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Tree Felling Line">
+                            <field name="felling_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="tree_id"
+                                           domain="[('state','=','standing'),('approved','=', True),('forest_reverse_id','=',parent.forest_reverse_id)]"
+                                           width="8"
+                                           options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                                    <field name="product_id" width="8"/>
+                                    <field name="contr_tree_no" width="10" required="1"/>
+                                    <field name="diameter" width="8"/>
+                                    <field name="defect_id" width="8"/>
+                                    <field name="formula_id" width="10" readonly="1" force_save="1"/>
+                                    <field name="formula_html" class="o_field_formula_editor" width="10"
+                                           optional="hide"/>
+                                    <field name="formula_text" width="10" column_invisible="True"/>
+                                    <field name="formula_variables" width="10" column_invisible="True"/>
+                                    <field name="formula_values" width="10" column_invisible="True"/>
+                                    <field name="quantity" width="10" options="{
+                                            'formula_variable_field': 'formula_variables', 'formula_value_field': 'formula_values',
+                                            'formula_text_field': 'formula_text', 'formula_field': 'formula_id',
+                                        }" widget="formula_value_calculator"/>
+                                    <field name="unit_id" width="8" required="1"/>
+                                    <field name="remarks" width="8" optional="show"/>
+                                </tree>
+
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="tree_id"/>
+                                            <field name="species_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="contr_tree_no" placeholder="Enter Contract Tree Number"/>
+                                            <field name="diameter"/>
+                                        </group>
+                                    </group>
+
+                                    <hr/>
+                                    <group>
+                                        <group>
+                                            <field name="defect_id" placeholder="Select Defect"/>
+                                        </group>
+                                        <group>
+                                            <field name="formula_id" width="10" readonly="1"/>
+                                            <field name="formula_html" class="o_field_formula_editor" width="10"
+                                                   optional="hide"/>
+                                            <field name="formula_variables" width="10" readonly="1"
+                                                   column_invisible="True"/>
+                                            <field name="formula_values" width="10" readonly="1"
+                                                   column_invisible="True"/>
+                                            <field name="quantity" width="10"/>
+                                        </group>
+                                    </group>
+                                    <hr/>
+                                    <label for="remarks"/>
+                                    <div>
+                                        <field name="remarks" placeholder="Write some notes here.."/>
+                                    </div>
+
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="forest_tree_felling_search_view" model="ir.ui.view">
+        <field name="name">forest.tree.felling.search</field>
+        <field name="model">forest.tree.felling</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="plot_compartment_id"/>
+                <field name="operator_id"/>
+                <field name="tree_fell_date"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="forest_tree_felling_action" model="ir.actions.act_window">
+        <field name="name">Forest Tree Felling</field>
+        <field name="res_model">forest.tree.felling</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="forest_tree_felling_search_view"/>
+    </record>
+</odoo>

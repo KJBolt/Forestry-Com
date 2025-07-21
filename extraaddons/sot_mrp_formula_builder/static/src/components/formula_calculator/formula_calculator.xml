@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="sot_mrp_formula_builder.FormulaCalculator">
+        <div class="o_field_tags d-inline-flex flex mw-100 text-right" t-att-class="{'o_input': !props.readonly}" t-ref="formulaValueCalculator">
+            <span t-esc="state.formattedResult"/>
+            <div class="o_input_dropdown d-inline-flex w-100" tabindex="0" t-ref="mainElement" t-on-focus="onFormulaElementFocus" t-on-click="onFormulaElementFocus">
+                <span class="formula_value_placeholder"/>
+                <span class="o_dropdown_button"/>
+                <t t-call="sot_mrp_formula_builder.FormulaCalculatorValuePopup"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="sot_mrp_formula_builder.FormulaCalculatorValuePopup">
+        <div class="formula_calculator_popup dropdown-menu o-dropdown--menu show rounded py-0 overflow-x-hidden" t-if="state.showDropdown" t-ref="formulaValueDropdown">
+            <div class="popover-header sticky-top">
+                <div class="d-flex align-items-center">
+                    <div class="h5 mt-2 me-auto">Value Calculator</div>
+                    <div class="popupButtons">
+                        <span class="btn o_button" t-on-click.stop="() => this.reload()" title="Refresh"><span class="fa fa-refresh"/></span>
+                        <span class="btn o_button" t-on-click.stop="() => this.closeFormulaValueEditor()" title="Close"><span class="fa fa-close"/></span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 table-responsive">
+                <span t-if="allVariables.length===0">No variables found</span>
+                <div class="dynamic-formula-form">
+                    <div class="" t-if="allVariables.length>0" t-foreach="allVariables" t-as="field_id" t-key="field_id">
+                        <div class="mb-1">
+                            <label t-att-for="field_id" class="form-label">
+                                <t t-esc="allAvailableVariables[field_id]"/>
+                            </label>
+                            <t t-if="props.readonly">
+                                <input type="text" t-att-id="field_id" t-att-value="allVariableValues[field_id]" class="form-control" readonly="readonly"/>
+                            </t>
+                            <t t-else="">
+                                <input t-if="field_id in allVariableValues" type="text" t-att-id="field_id" t-att-value="allVariableValues[field_id]" class="form-control" t-on-input="onVariableValueChange" placeholder="e.g. 1.00"/>
+                                <input t-else="" type="text" t-att-id="field_id" class="form-control" t-on-input="onVariableValueChange" placeholder="e.g. 1.00"/>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <button t-if="!props.readonly" class="btn btn-primary w-100" t-on-click.stop="() => this.onCalculateFormula()">CALCULATE</button>
+            </div>
+        </div>
+    </t>
+
+</templates>

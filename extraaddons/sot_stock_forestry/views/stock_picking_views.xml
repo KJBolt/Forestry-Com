@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="forestry_product_view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.inherit.forestry.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_forest_order" invisible="1"/>
+                <field name="forest_id" invisible="is_forest_order"/>
+                <field name="plot_id" invisible="is_forest_order"/>
+                <field name="waybill_id" invisible="is_forest_order"/>
+            </xpath>
+
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']"
+                   position="before">
+                <field name="volume_done"/>
+                <field name="volume_uom_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_move_line_operation_tree" model="ir.ui.view">
+        <field name="name">stock.move.line.inherit.forestry.view.form</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+        <field name="arch" type="xml">
+            <field name="quantity" position="before">
+                <field name="formula_id" width="10" column_invisible="not parent.is_forest_order"/>
+                <field name="formula_html" class="o_field_formula_editor" width="10" optional="hide"
+                       column_invisible="not parent.is_forest_order"/>
+                <field name="formula_text" width="10" column_invisible="True"/>
+                <field name="formula_variables" width="10" column_invisible="True"/>
+                <field name="formula_values" width="10" column_invisible="True"/>
+                <field name="volume" width="10" options="{
+                    'formula_field': 'formula_id',
+                    'formula_text_field': 'formula_text',
+                    'formula_variable_field': 'formula_variables',
+                    'formula_value_field': 'formula_values',
+                }" widget="formula_value_calculator" sum="Total Volume"/>
+                <field name="volume_uom_id" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_move_line_tree" model="ir.ui.view">
+        <field name="name">stock.move.line.inherit.forestry.view.tree</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="quantity" position="before">
+                <field name="formula_id" width="10" readonly="1" force_save="1"/>
+                <field name="formula_html" class="o_field_formula_editor" width="10" optional="hide"/>
+                <field name="formula_text" width="10" column_invisible="True"/>
+                <field name="formula_variables" width="10" column_invisible="True"/>
+                <field name="formula_values" width="10" column_invisible="True"/>
+                <field name="volume" width="10" options="{
+                    'formula_field': 'formula_id',
+                    'formula_text_field': 'formula_text',
+                    'formula_variable_field': 'formula_variables',
+                    'formula_value_field': 'formula_values',
+                }" widget="formula_value_calculator"/>
+                <field name="volume_uom_id" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_stock_move_line_detailed_operation_tree" model="ir.ui.view">
+        <field name="name">stock.move.line.inherit.forestry.view.form</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+            <field name="quantity" position="before">
+                <field name="formula_id" width="10" readonly="1" force_save="1"/>
+                <field name="formula_html" class="o_field_formula_editor" width="10" optional="hide"/>
+                <field name="formula_text" width="10" column_invisible="True"/>
+                <field name="formula_variables" width="10" column_invisible="True"/>
+                <field name="formula_values" width="10" column_invisible="True"/>
+                <field name="volume" width="10" options="{
+                    'formula_field': 'formula_id',
+                    'formula_text_field': 'formula_text',
+                    'formula_variable_field': 'formula_variables',
+                    'formula_value_field': 'formula_values',
+                }" widget="formula_value_calculator"/>
+                <field name="volume_uom_id" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_move_line_form_inherit_forestry" model="ir.ui.view">
+        <field name="name">stock.move.line.form forestry</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//label[@for='quantity']" position="before">
+                <field name="formula_id" width="10" readonly="1" force_save="1"/>
+                <field name="formula_html" class="o_field_formula_editor"/>
+                <field name="formula_text" width="10" invisible="True"/>
+                <field name="formula_variables" width="10" invisible="True"/>
+                <field name="formula_values" width="10" invisible="True"/>
+                <label for="volume" string="Volume"/>
+                <div class="o_row">
+                    <field name="volume" width="10" options="{
+                        'formula_field': 'formula_id',
+                        'formula_text_field': 'formula_text',
+                        'formula_variable_field': 'formula_variables',
+                        'formula_value_field': 'formula_values',
+                    }" widget="formula_value_calculator"/>
+                    <field name="volume_uom_id" readonly="1" groups="uom.group_uom"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="sot_forest_inherit_operation_view_move_form" model="ir.ui.view">
+        <field name="name">stock.move.form.inherit.forestry</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+
+            <field name="move_line_ids" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+            <field name="move_line_ids" position="after">
+                <field name="formula_id" invisible="1"/>
+                <field name="formula_variables" invisible="1"/>
+
+                <notebook>
+                    <page name="operation_detail" string="Detail Operations">
+                        <field name="move_line_ids"
+                               readonly="state == 'cancel' or (state == 'done' and is_locked)"
+                               context="{
+                               'tree_view_ref': 'stock.view_stock_move_line_operation_tree',
+                               'default_picking_id': picking_id,
+                               'default_move_id': id,
+                               'default_product_id': product_id,
+                               'default_formula_id': formula_id,
+                               'default_formula_variables': formula_variables,
+                               'default_location_id': location_id,
+                               'default_location_dest_id': location_dest_id,
+                               'default_company_id': company_id
+                               }"
+                               widget="sml_x2_many"/>
+                    </page>
+                </notebook>
+            </field>
+        </field>
+    </record>
+
+</odoo>    

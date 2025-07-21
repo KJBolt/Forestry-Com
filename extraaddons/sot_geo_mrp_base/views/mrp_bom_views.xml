@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_bom_form_views" model="ir.ui.view">
+        <field name="name">mrp.bom.form.extension</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='miscellaneous']/group[1]" position="inside">
+                <group name="validity" string="BoM Expiration">
+                    <field name="valid_form"/>
+                    <field name="valid_to"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//page[@name='miscellaneous']/group[1]" position="inside">
+                <group name="formula" string="Volume Formula">
+                    <field name="formula_type"/>
+                    <field name="formula_id"
+                           options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                    <field name="formula_html" class="o_field_formula_editor"/>
+                    <field name="validate_quantity"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo>
+    <data>
+        <template id="purchase_order_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="padding: 20px; font-family: Arial, sans-serif;">
+                        <h3 style="color: #1e8449; margin-bottom: 15px; font-size: 30px; font-weight: 900; text-align: center;">
+                            WEST COAST WOODEN PRODUCTS GH LTD
+                        </h3>
+                        <!-- Header Section -->
+                        <table class="table" width="100%" style="margin-bottom: 10px; border: 1px solid #fff">
+                            <tr>
+                                <!-- Company Info - Left Side -->
+                                <td width="60%" style="vertical-align: top;">
+                                    <div style="line-height: 1.8; font-size: 16px;">
+                                        <div class="font-size: 16px;">Address: P.O.Box AM 8382, Accra North, Ghana</div>
+                                        <div class="font-size: 16px;">Location: GPS GT-058-4602, Tema community 6</div>
+                                        <div class="font-size: 16px;">City: Accra, West Africa</div>
+                                        <div class="font-size: 16px;">Phone: +233(0)302400204/+233(0)244959686</div>
+                                        <div class="font-size: 16px;">Email: info@westcoastwodenproductsghltd.com</div>
+                                        <div class="font-size: 16px;">TIN NO: C0022282383</div>
+                                    </div>
+                                </td>
+                                <!-- Invoice Info - Right Side -->
+                                <td width="40%" style="vertical-align: top; text-align: left;">
+                                    <h2 style="color: #1e8449; font-size: 20px;">INVOICE</h2>
+                                    <div style="line-height: 1.8; font-size: 14px; padding: 15px; border: 1px solid black;">
+                                        <div class="font-size: 16px;">Date: 1/2/2025</div>
+                                        <div class="font-size: 16px;">Invoice No.: WCWP/25/53</div>
+                                        <div class="font-size: 16px;">Currency: USD</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Customer and Shipping Info -->
+                        <table width="100%" style="margin-bottom: 10px; border: 1px solid black;">
+                            <tr>
+                                <td width="50%" style="vertical-align: top; padding: 10px;">
+                                    <div style="font-weight: bold; pading: 10px; font-size: 18px; margin-bottom: 10px;">Customer:</div>
+                                    <div style="line-height: 1.6; font-size: 16px;">
+                                        CROWN HOUSE ENTERPRISE
+                                        <div>P.O BOX 7216 ACCRA-NORTH</div>
+                                        <div>ACCRA</div>
+                                        <div>GHANA</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Order Table -->
+                        <table width="100%" style="margin-bottom: 10px; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background-color: #f8f9fa;">
+                                    <th style="padding: 12px; border: 1px solid black; font-size: 18px; font-weight: 500; line-height: 1.6;">PRODUCT</th>
+                                    <th style="padding: 12px; border: 1px solid black; font-size: 18px; font-weight: 500; line-height: 1.6;">DESCRIPTION</th>
+                                    <th style="padding: 12px; border: 1px solid black; font-size: 18px; text-align: right; font-weight: 500; line-height: 1.6; text-align:center;">QUANTITY</th>
+                                    <th style="padding: 12px; border: 1px solid black; font-size: 18px; text-align: right; font-weight: 500; line-height: 1.6; text-align:center;">UNIT PRICE</th>
+                                    <th style="padding: 12px; border: 1px solid black; font-size: 18px; text-align: right; font-weight: 500; line-height: 1.6; text-align:center;">CUBIC METER</th>
+                                    <th style="padding: 12px; border: 1px solid black; font-size: 18px; text-align: right; font-weight: 500; line-height: 1.6; text-align:center;">TOTAL PRICE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px;">PLYWOOD</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; line-height: 1.6;">Film Face Plywood: 1220*2440*20mm poplar core, WBP glue (One time hot press)</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;">210</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;">15.50</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;"></td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;">3,255.00</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px;">Veneer</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px;">Veneer coated plywood</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;">210</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;">17.00</td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;"></td>
+                                    <td style="padding: 12px; border: 1px solid black; font-size: 16px; text-align: right;">3,570.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Totals Section -->
+                        <table width="100%" style="margin-bottom: 10px; border: none; border-collapse: collapse;">
+                            <tr>
+                                <td width="70%" style="border: 1px solid black">
+                                    <!-- Terms Section -->
+                                    <div style="margin-bottom: 30px; line-height: 1.6; padding: 10px;">
+                                        <div style="font-weight: bold; margin-bottom: 10px;">NOTE:</div>
+                                        <div>Payment Terms: TT 30% upfront, 70% before the arrival of the goods at the port of destination.</div>
+                                        <div>Delivery date: 30days after receiving upfront payment.</div>
+                                        <div>Shipment marks: as requirement</div>
+                                        <div>Validity of quote: 10 days</div>
+                                        <div>Packing: Pallet packing</div>
+                                    </div>
+                                </td>
+                                <td width="30%">
+                                    <table class="table table-borderless" width="100%">
+                                        <tr>
+                                            <td style="padding: 8px; font-size: 14px;">Subtotal:</td>
+                                            <td style="padding: 8px; text-align: right; font-size: 14px;">USD 17,976.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 8px; font-size: 14px;">VAT (15.0%):</td>
+                                            <td style="padding: 8px; text-align: right; font-size: 14px;">USD 2,160.90</td>
+                                        </tr>
+                                        <tr style="border-top: 1px solid black;">
+                                            <td style="padding: 8px; font-weight: bold; font-size: 14px;">Total:</td>
+                                            <td style="padding: 8px; text-align: right; font-weight: bold; font-size: 14px;">USD 20,136.90</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div style="width: 60%; float: left; border: 1px solid black; margin-bottom: 10px; background-color: #f0f8ff;">
+                            <div style="padding: 15px;">
+                                <div style="font-weight: bold; margin-bottom: 10px;">BANKING DETAILS</div>
+                                <div style="line-height: 1.6;">
+                                    <div>Bank name: Ecobank Ghana Ltd</div>
+                                    <div>Bank branch: Tema Community one Branch</div>
+                                    <div>Account name: West Coast Wooden Products Gh ltd.</div>
+                                    <div>Bank Swiftcode: ECOCGHAC</div>
+                                    <div>Account Number: 3441002224442 USD</div>
+                                    <div>Account Number: 1441002728222 GHS</div>
+                                    <div>Address: 19 Seventh Avenue, Ridge-west, Accra Ghana</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="width: 100%; clear: both; margin-bottom: 20px;">
+                            <!-- Banking Details - Left Side -->
+                            <div style="width: 60%; float: left; border: 1px solid black; background-color: #f0f8ff;">
+                                <div style="padding: 15px;">
+                                    <div style="font-weight: bold; margin-bottom: 10px;">BANKING DETAILS</div>
+                                    <div style="line-height: 1.6;">
+                                        <div>Bank name: Ecobank Ghana Ltd</div>
+                                        <div>Bank branch: Tema Community one Branch</div>
+                                        <div>Account name: West Coast Wooden Products Gh ltd.</div>
+                                        <div>Bank Swiftcode: ECOCGHAC</div>
+                                        <div>Account Number: 3441002224442 USD</div>
+                                        <div>Account Number: 1441002728222 GHS</div>
+                                        <div>Address: 19 Seventh Avenue, Ridge-west, Accra Ghana</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Signature - Right Side -->
+                            <div style="width: 35%; float: right;">
+                                <div style="border: 1px solid black; padding: 15px; text-align: center; margin-top: 170px;">
+                                    <p style="margin: 0;">Signature/Stamp</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
