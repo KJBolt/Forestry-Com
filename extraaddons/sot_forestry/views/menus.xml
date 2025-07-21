@@ -5,132 +5,180 @@
             id="forestry_menu_root"
             name="Forestry"
             web_icon="sot_forestry,static/description/icon.png"
-            sequence="99">
+            sequence="1">
 
         <menuitem id="dashboard_root" name="Dashboard" sequence="5">
-            <menuitem id="menu_action_foresty_collection"
-                      name="Dashboard"
-                      action="action_forsty_dashboard"
-                      sequence="-1"/>
+            <menuitem 
+                id="menu_action_foresty_collection"
+                name="Dashboard"
+                action="action_forsty_dashboard"
+                sequence="-1"
+            />
         </menuitem>
 
         <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
         <menuitem id="document_root" name="Document" sequence="10">
             <!-- rana -->
-            <menuitem id="reverse_forest_menu_forestry"
-                      name="Forest Reverse"
-                      action="forest_forest_reverse_action"
-                      sequence="10"/>
+            <menuitem 
+                id="reverse_forest_menu_forestry"
+                name="Forest Reverse"
+                action="forest_forest_reverse_action"
+                sequence="10"
+            />
 
-            <menuitem id="forest_tree_registration_menu_forestry"
-                      name="Tree Registration"
-                      action="forest_tree_registration_action"
-                      sequence="20"/>
+            <menuitem 
+                id="forest_tree_registration_menu_forestry"
+                name="Tree Registration"
+                action="forest_tree_registration_action"
+                sequence="20"
+            />
 
-            <menuitem id="forest_tree_list_menu_forestry"
-                      name="Tree List"
-                      action="forest_tree_line_action"
-                      sequence="30"/>
+            <menuitem 
+                id="forest_tree_list_menu_forestry"
+                name="Tree List"
+                action="forest_tree_line_action"
+                sequence="30"
+            />
 
-            <menuitem id="forest_tree_felling_menu_forestry"
-                      name="Tree Fell"
-                      action="forest_tree_felling_action"
-                      sequence="40"/>
+            <menuitem 
+                id="forest_tree_felling_menu_forestry"
+                name="Tree Fell"
+                action="forest_tree_felling_action"
+                sequence="40"
+            />
 
-            <menuitem id="forest_tree_inforamtion_menu_forestry"
-                      name="Tree Information"
-                      action="forest_tree_information_action"
-                      sequence="50"/>
+            <menuitem 
+                id="forest_tree_inforamtion_menu_forestry"
+                name="Tree Information"
+                action="forest_tree_information_action"
+                sequence="50"
+            />
 
-            <menuitem id="forest_tree_felling_cross_cut_menu"
-                      name="Cross Cut"
-                      action="cross_cut_action"
-                      sequence="60"/>
+            <menuitem 
+                id="forest_tree_felling_cross_cut_menu"
+                name="Cross Cut"
+                action="cross_cut_action"
+                sequence="60"
+            />
 
-            <menuitem id="forest_tree_felling_hauling_menu"
-                      name="Hauling"
-                      action="hauling_action"
-                      sequence="70"/>
+            <menuitem 
+                id="forest_tree_felling_hauling_menu"
+                name="Hauling"
+                action="hauling_action"
+                sequence="70"
+            />
 
-            <menuitem id="forest_tree_felling_waybill_menu"
-                      name="Log Information"
-                      action="waybill_action"
-                      sequence="80"/>
+            <menuitem 
+                id="forest_tree_felling_waybill_menu"
+                name="Log Information"
+                action="waybill_action"
+                sequence="80"
+            />
 
         </menuitem>
 
-        <menuitem id="forest_stumpage_root"
-                  name="Stumpage"
-                  sequence="15">
+        <menuitem 
+            id="forest_stumpage_root"
+            name="Stumpage"
+            sequence="15"
+        >
 
-            <menuitem id="forest_tree_menu_suppliers"
-                      name="Suppliers"
-                      action="res_partner_action_supplier_partners"
-                      sequence="10"/>
+            <menuitem 
+                id="forest_tree_menu_suppliers"
+                name="Suppliers"
+                action="res_partner_action_supplier_partners"
+                sequence="10"
+            />
 
-            <menuitem id="forest_tree_menu_drivers"
-                      name="Drivers"
-                      action="res_partner_action_drivers_partners"
-                      sequence="20"/> 
-            <menuitem id="forest_tree_menu_customers"
-                      name="Customers"
-                      action="res_partner_action_customers_partners"
-                      sequence="30"/>  
-            <menuitem id="forest_tree_menu_range_supervisors"
-                      name="Range Supervisors"
-                      action="res_partner_action_range_supervisors_partners"
-                      sequence="40"/>                                 
-            <menuitem id="forest_tree_purchase_menu"
-                      name="Purchase"
-                      action="purchase.purchase_form_action"
-                      sequence="50"/>
+            <menuitem 
+                id="forest_tree_menu_drivers"
+                name="Drivers"
+                action="res_partner_action_drivers_partners"
+                sequence="20"
+            /> 
+            <menuitem 
+                id="forest_tree_menu_customers"
+                name="Customers"
+                action="res_partner_action_customers_partners"
+                sequence="30"
+            />  
+            <menuitem 
+                id="forest_tree_menu_range_supervisors"
+                name="Range Supervisors"
+                action="res_partner_action_range_supervisors_partners"
+                sequence="40"
+            />                                 
+            <menuitem 
+                id="forest_tree_purchase_menu"
+                name="Purchase"
+                action="purchase.purchase_form_action"
+                sequence="50"
+            />
 
-            <menuitem id="forest_tree_receipts_menu"
-                      name="Receipts"
-                      action="stock.action_picking_tree_incoming"
-                      sequence="60"/>
+            <menuitem 
+                id="forest_tree_receipts_menu"
+                name="Receipts"
+                action="stock.action_picking_tree_incoming"
+                sequence="60"
+            />
         </menuitem>
 
         <!-- end rana -->
 
-        <menuitem id="menu_forestry_config"
-                  name="Configuration"
-                  sequence="100">
+        <menuitem 
+            id="menu_forestry_config"
+            name="Configuration"
+            sequence="100"
+        >
 
-            <menuitem id="forest_type_menu_forestry"
-                      name="Forest Type Setup"
-                      action="forest_type_action"
-                      sequence="50"/>
+            <menuitem 
+                id="forest_type_menu_forestry"
+                name="Forest Type Setup"
+                action="forest_type_action"
+                sequence="50"
+            />
 
-            <menuitem id="forest_pricelist_approval_menu_forestry"
-                      name="Pricelist Approval"
-                      action="forest_pricelist_approval_action"
-                      sequence="60"/>
+            <menuitem 
+                id="forest_pricelist_approval_menu_forestry"
+                name="Pricelist Approval"
+                action="forest_pricelist_approval_action"
+                sequence="60"
+            />
 
-            <menuitem id="machine_menu_forestry"
-                      name="Machine"
-                      action="machine_machine_action"
-                      sequence="70"/>
+            <menuitem 
+                id="machine_menu_forestry"
+                name="Machine"
+                action="machine_machine_action"
+                sequence="70"
+            />
 
-            <menuitem id="certificate_status_menu_forestry"
-                      name="Certificate Status"
-                      action="certificate_status_action"
-                      sequence="80"/>
+            <menuitem 
+                id="certificate_status_menu_forestry"
+                name="Certificate Status"
+                action="certificate_status_action"
+                sequence="80"
+            />
 
-            <menuitem id="vehicle_type_menu_forestry"
-                      name="Vehicle Type"
-                      action="vehicle_type_action"
-                      sequence="90"/>
+            <menuitem 
+                id="vehicle_type_menu_forestry"
+                name="Vehicle Type"
+                action="vehicle_type_action"
+                sequence="90"
+            />
 
-            <menuitem id="district_menu_forestry"
-                      name="District"
-                      action="forest_district_action"
-                      sequence="100"/>
+            <menuitem 
+                id="district_menu_forestry"
+                name="District"
+                action="forest_district_action"
+                sequence="100"
+            />
 
-            <menuitem id="property_mark_menu_forestry"
-                      name="Property Mark"
-                      action="forest_property_mark_action"
-                      sequence="110"/>
+            <menuitem 
+                id="property_mark_menu_forestry"
+                name="Property Mark"
+                action="forest_property_mark_action"
+                sequence="110"
+            />
 
         </menuitem>
     </menuitem>

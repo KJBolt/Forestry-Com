@@ -38,6 +38,7 @@
         'views/forest_tree_information_views.xml',
         'views/waybill_views.xml',
         'views/dashboard.xml',
+        'views/hide_menu_items.xml',
 
         'views/menus.xml',
         'views/login_templates.xml',

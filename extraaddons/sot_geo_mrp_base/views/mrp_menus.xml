@@ -3,10 +3,11 @@
     <data>
 
         <menuitem name="Manufacturing Orders"
-                  action="mrp_production_batch_action"
-                  id="menu_mrp_batch_operation"
-                  parent="mrp.menu_mrp_manufacturing"
-                  sequence="1"/>
+            action="mrp_production_batch_action"
+            id="menu_mrp_batch_operation"
+            parent="mrp.menu_mrp_manufacturing"
+            sequence="1"
+        />
 
         <record model="ir.ui.menu" id="mrp.menu_mrp_production_action">
             <field name="name">Job Execution</field>
