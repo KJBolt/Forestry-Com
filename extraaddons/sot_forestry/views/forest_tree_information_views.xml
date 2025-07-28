@@ -13,9 +13,9 @@
                 <field name="operator_id"/>
                 <field name="create_date" string="Document Date"></field>
                 <field name="state" width="10" widget="badge"
-                       decoration-info="state == 'draft'"
-                       decoration-success="state == 'approved'"
-                       decoration-danger="state == 'cancel'"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'approved'"
+                    decoration-danger="state == 'cancel'"
                 />
             </tree>
         </field>
@@ -46,28 +46,32 @@
                     <group>
                         <group name="main">
                             <field name="forest_reverse_id" required="1" force_save="1" readonly="state != 'draft'"
-                                   domain="[('state','=','approved')]"
-                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                                domain="[('state','=','approved')]"
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"
+                            />
                             <field name="plot_compartment_id" required="1" readonly="state != 'draft'"
-                                   domain="[('reverse_id','=',forest_reverse_id), ('reverse_id.state','=','approved')]"
-                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                                domain="[('reverse_id','=',forest_reverse_id), ('reverse_id.state','=','approved')]"
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"
+                            />
                             <field name="operator_id" readonly="state != 'draft'"
-                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
                             <field name="supplier_id" domain="[('customer_type', '=', 'supplier')]"
-                                   context="{
-                                   'search_default_supplier': 1,'res_partner_search_mode': 'supplier',
-                                   'default_is_company': True, 'default_supplier_rank': 1,
-                                   'default_customer_type': 'supplier', 'customer_type_readonly':True
-                                   }"
-                                   readonly="state != 'draft'"
-                                   options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                                context="{
+                                'search_default_supplier': 1,'res_partner_search_mode': 'supplier',
+                                'default_is_company': True, 'default_supplier_rank': 1,
+                                'default_customer_type': 'supplier', 'customer_type_readonly':True
+                                }"
+                                readonly="state != 'draft'"
+                                options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"
+                            />
                         </group>
                         <group name="2nd">
                             <field name="tif_no" readonly="state != 'draft'"/>
                             <field name="tif_date" readonly="state != 'draft'"/>
                             <field name="range_supervisor_id" domain="[('customer_type', '=', 'range_supervisor')]"
-                                   context="{'default_customer_type':'range_supervisor', 'customer_type_readonly':True}"
-                                   readonly="state != 'draft'"/>
+                                context="{'default_customer_type':'range_supervisor', 'customer_type_readonly':True}"
+                                readonly="state != 'draft'"
+                            />
                             <field name="remarks" readonly="state != 'draft'"/>
                             <field name="company_id" invisible="1"/>
                         </group>
@@ -78,13 +82,13 @@
                             <field name="information_line_ids" readonly="state != 'draft'">
                                 <tree editable="bottom">
                                     <field name="tree_id" required="1"
-                                           domain="[('forest_reverse_id','=',parent.forest_reverse_id)]" width="8"
-                                           options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                                        domain="[('forest_reverse_id','=',parent.forest_reverse_id)]" width="8"
+                                        options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
                                     <field name="contr_tree_no" readonly="1" force_save="1" width="10"/>
                                     <field name="product_id" width="8"/>
                                     <field name="formula_id" width="10" readonly="1" force_save="1"/>
                                     <field name="formula_html" class="o_field_formula_editor" width="10"
-                                           optional="hide"/>
+                                        optional="hide"/>
                                     <field name="formula_text" width="10" column_invisible="True"/>
                                     <field name="formula_variables" width="10" column_invisible="True"/>
                                     <field name="formula_values" width="10" column_invisible="True"/>
@@ -95,7 +99,7 @@
 
                                     <field name="tif_formula_id" width="10" readonly="1" force_save="1"/>
                                     <field name="tif_formula_html" class="o_field_formula_editor" width="10"
-                                           optional="hide"/>
+                                        optional="hide"/>
                                     <field name="tif_formula_text" width="10" column_invisible="True"/>
                                     <field name="tif_formula_variables" width="10" column_invisible="True"/>
                                     <field name="tif_formula_values" width="10" column_invisible="True"/>
@@ -105,7 +109,7 @@
                                         }" widget="formula_value_calculator"/>
                                     <field name="variance" readonly="1" force_save="1" width="8"/>
                                     <field name="unit_id" width="8" required="1"
-                                           options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
+                                        options="{'no_quick_create':True, 'no_create_edit':True, 'no_create':True}"/>
                                 </tree>
 
                             </field>

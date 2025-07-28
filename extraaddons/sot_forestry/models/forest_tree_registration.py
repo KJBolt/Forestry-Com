@@ -98,8 +98,8 @@ class ForestTreeImportWizard(models.TransientModel):
                         'diameter': float(row.get('diameter', 0)) if str(row.get('diameter', '')).strip() else 0.0,
                         'uom_id': self._get_uom_id(row.get('uom', '')),
                         'condition_score': float(row.get('condition score', 0)) if str(row.get('condition score', '')).strip() else 0.0,
-                        'longitude': row.get('longitude', ''),
-                        'latitude': row.get('latitude', ''),
+                        # 'longitude': row.get('longitude', ''),
+                        # 'latitude': row.get('latitude', ''),
                     }
                     
                     # Create tree line

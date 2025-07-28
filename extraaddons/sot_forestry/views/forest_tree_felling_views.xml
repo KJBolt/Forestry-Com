@@ -13,9 +13,9 @@
                 <field name="machine_id"/>
                 <field name="tree_fell_date"/>
                 <field name="state" width="10" widget="badge"
-                       decoration-info="state == 'draft'"
-                       decoration-success="state == 'approved'"
-                       decoration-danger="state == 'cancel'"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'approved'"
+                    decoration-danger="state == 'cancel'"
                 />
             </tree>
         </field>

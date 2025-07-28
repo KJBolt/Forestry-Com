@@ -12,6 +12,6 @@
 
     <!-- Hide Link Tracker menu item -->
     <record id="utm.menu_link_tracker_root" model="ir.ui.menu">
-        <field name="active" eval="False"/>
+        <field name="active" eval="False" />
     </record>
 </odoo>
