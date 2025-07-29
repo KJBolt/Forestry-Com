@@ -112,7 +112,7 @@ class ForestTreeImportWizard(models.TransientModel):
                             'tree_id': current_tree.id,
                             'name': row.get('stock number', ''),
                             'product_id': self._get_product_id(row.get('species', '')),
-                            'diameter': int(row.get('diameter', 0)) if str(row.get('diameter', '')).strip() else 0,
+                            'diameter': float(row.get('diameter', 0)) if str(row.get('diameter', '')).strip() else 0,
                             'uom_id': self._get_uom_id(row.get('Length UoM(m)', '')),
                             'condition_score': float(row.get('condition score', 0)) if str(row.get('condition score', '')).strip() else 0.0,
                             'latitude': first_row.get('latitude', ''),
@@ -299,7 +299,7 @@ class ForestTreeRegister(models.Model):
     note = fields.Text(string="Note")
     name = fields.Char(string="Serial No", required=True, default=lambda self: _("New"), tracking=True, readonly=True)
     forest_reverse_id = fields.Many2one("forest.reverse", string="Forest Name")
-    diameter = fields.Integer(string="Diameter")
+    diameter = fields.Float(string="Diameter")
     remarks = fields.Text(string="Remarks")
     plot_compartment_id = fields.Many2one('forest.reverse.line', string="Plot/Compartment")
     document_date = fields.Date(string="Document Date")
@@ -391,7 +391,7 @@ class ForestFellingLine(models.Model):
         string="Plot/Compartment"
     )
     condition_score = fields.Float(string="Condition Score")
-    diameter = fields.Integer(string="Diameter")
+    diameter = fields.Float(string="Diameter")
     uom_id = fields.Many2one("uom.uom", string="UoM", default=_default_uom)
     latitude = fields.Char(string="Latitude")
     longitude = fields.Char(string="Longitude")
