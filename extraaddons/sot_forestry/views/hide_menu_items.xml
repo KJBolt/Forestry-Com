@@ -6,12 +6,12 @@
     </record>
 
     <!-- Hide Spreadsheet menu item -->
-    <record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" model="ir.ui.menu">
+    <!-- <record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" model="ir.ui.menu">
         <field name="active" eval="False"/>
-    </record>
+    </record> -->
 
     <!-- Hide Link Tracker menu item -->
-    <record id="utm.menu_link_tracker_root" model="ir.ui.menu">
+    <!-- <record id="utm.menu_link_tracker_root" model="ir.ui.menu">
         <field name="active" eval="False" />
-    </record>
+    </record> -->
 </odoo>

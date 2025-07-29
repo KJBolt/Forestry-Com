@@ -23,6 +23,7 @@
                             <div>
                                 <field name="file" filename="file_name" string="Excel File" widget="binary"/>
                                 <field name="file_name" readonly="1" invisible="1"/>
+                                <br/>
                                 <p class="text-muted">
                                     <strong>Note:</strong> The Excel file should contain the following columns:<br/>
                                     - Forest Name*<br/>
@@ -34,12 +35,9 @@
                                     - Stock Number<br/>
                                     - Species<br/>
                                     - Diameter<br/>
-                                    - Condition Score<br/>
-                                    - UoM (Unit of Measure)<br/><br/>
+                                    - Length UoM(m)<br/>
+                                    - Condition Score<br/><br/>
                                     
-                                    <strong>For multiple compartment details under the same tree:</strong><br/>
-                                    - First row: Enter the tree details<br/>
-                                    - Following rows: Use "" under the tree fields to add more compartment details to the same tree<br/><br/>
                                     
                                     <button name="download_template" type="object" class="btn btn-primary">
                                         Download Excel Template

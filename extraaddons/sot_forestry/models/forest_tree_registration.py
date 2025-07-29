@@ -19,7 +19,7 @@ class ForestTreeImportWizard(models.TransientModel):
     file_name = fields.Char('File Name')
     
     def action_import(self):
-        """Import trees and their lines from Excel file"""
+        """Import trees and their lines from Excel file, grouping by forest name"""
         self.ensure_one()
         
         if not self.file:
@@ -33,24 +33,26 @@ class ForestTreeImportWizard(models.TransientModel):
             
             # Get column indices (normalize header names by stripping and converting to lowercase)
             header = [str(cell.value).strip().lower() for cell in sheet.row(0)]
-            required_fields = ['forest name', 'plot/compartment']
+            required_forest_fields = ['forest name', 'plot/compartment', 'stripe line', 'latitude', 'longitude']
+            required_tree_fields = ['stock number', 'species', 'diameter', 'Length UoM(m)', 'condition score']
             
             # Check for required fields (case-insensitive)
-            missing_fields = []
-            for field in required_fields:
-                if field.lower() not in [h.lower() for h in header]:
-                    missing_fields.append(field)
+            missing_forest_fields = [f for f in required_forest_fields if f.lower() not in [h.lower() for h in header]]
+            missing_tree_fields = [f for f in required_tree_fields if f.lower() not in [h.lower() for h in header]]
             
-            if missing_fields:
-                raise UserError(_('Required column(s) not found in the Excel file: %s') % ', '.join(missing_fields))
+            if missing_forest_fields or missing_tree_fields:
+                error_msg = []
+                if missing_forest_fields:
+                    error_msg.append(f"Forest registration fields: {', '.join(missing_forest_fields)}")
+                if missing_tree_fields:
+                    error_msg.append(f"Tree line fields: {', '.join(missing_tree_fields)}")
+                raise UserError(_('Required column(s) not found in the Excel file: \n%s') % '\n'.join(error_msg))
             
             # Create a mapping of normalized header names to column indices
             header_map = {h.lower().strip(): idx for idx, h in enumerate(header)}
             
-            # Track current tree and its lines
-            current_tree = None
-            tree_count = 0
-            line_count = 0
+            # Group rows by forest name
+            forest_groups = {}
             
             # Process each row (skip header)
             for row_idx in range(1, sheet.nrows):
@@ -60,63 +62,85 @@ class ForestTreeImportWizard(models.TransientModel):
                     row[h] = row_data[idx].value if idx < len(row_data) and row_data[idx].value is not None else ''
                 
                 # Skip empty rows
-                if not any(row.values()):
+                if not any(str(v).strip() for v in row.values() if v is not None):
                     continue
                     
-                # Check if this is a new tree or additional line for current tree
-                is_new_tree = True
-                if current_tree and all(row.get(field, '').strip() == ''
-                        for field in ['forest name', 'plot/compartment', 'stripe line', 'latitude', 'longitude'] 
-                        if field in row):
-                    is_new_tree = False
-                
-                if is_new_tree:
-                    # Create a new tree record
-                    forest_id = self._get_forest_id(row.get('forest name', ''))
-                    plot_compartment_id = self._get_plot_compartment_id(row.get('plot/compartment', ''), forest_id)
-                    stripe_id = self._get_stripe_id(row.get('stripe line', ''), plot_compartment_id)
+                forest_name = str(row.get('forest name', '')).strip()
+                if not forest_name:
+                    continue
                     
-                    tree_vals = {
-                        'forest_reverse_id': forest_id,
-                        'plot_compartment_id': plot_compartment_id,
-                        'stripe_id': stripe_id,
-                        'latitude': row.get('latitude', ''),
-                        'longitude': row.get('longitude', ''),
-                        'remarks': row.get('remarks', ''),
-                    }
-                    
-                    # Create the tree
-                    current_tree = self.env['forest.tree'].create(tree_vals)
-                    tree_count += 1
-                
-                # Always create a tree line for the current row
-                if current_tree:
-                    line_vals = {
-                        'tree_id': current_tree.id,
-                        'name': row.get('stock number', ''),
-                        'product_id': self._get_product_id(row.get('species', '')),
-                        'diameter': float(row.get('diameter', 0)) if str(row.get('diameter', '')).strip() else 0.0,
-                        'uom_id': self._get_uom_id(row.get('uom', '')),
-                        'condition_score': float(row.get('condition score', 0)) if str(row.get('condition score', '')).strip() else 0.0,
-                        # 'longitude': row.get('longitude', ''),
-                        # 'latitude': row.get('latitude', ''),
-                    }
-                    
-                    # Create tree line
-                    self.env['forest.tree.line'].create(line_vals)
-                    line_count += 1
+                if forest_name not in forest_groups:
+                    forest_groups[forest_name] = []
+                forest_groups[forest_name].append(row)
             
+            if not forest_groups:
+                raise UserError(_('No valid forest data found in the file.'))
+            
+            tree_count = 0
+            line_count = 0
+            
+            # Process each forest group
+            for forest_name, rows in forest_groups.items():
+                if not rows:
+                    continue
+                    
+                # Get the first row for forest registration data
+                first_row = rows[0]
+                
+                # Create forest registration record
+                forest_id = self._get_forest_id(forest_name)
+                plot_compartment_id = self._get_plot_compartment_id(first_row.get('plot/compartment', ''), forest_id)
+                stripe_id = self._get_stripe_id(first_row.get('stripe line', ''), plot_compartment_id)
+                
+                tree_vals = {
+                    'forest_reverse_id': forest_id,
+                    'plot_compartment_id': plot_compartment_id,
+                    'stripe_id': stripe_id,
+                    'latitude': first_row.get('latitude', ''),
+                    'longitude': first_row.get('longitude', ''),
+                    'remarks': first_row.get('remarks', ''),
+                }
+                
+                # Create the forest registration
+                current_tree = self.env['forest.tree'].create(tree_vals)
+                tree_count += 1
+                
+                # Add all tree lines for this forest
+                for row in rows:
+                    try:
+                        line_vals = {
+                            'tree_id': current_tree.id,
+                            'name': row.get('stock number', ''),
+                            'product_id': self._get_product_id(row.get('species', '')),
+                            'diameter': int(row.get('diameter', 0)) if str(row.get('diameter', '')).strip() else 0,
+                            'uom_id': self._get_uom_id(row.get('Length UoM(m)', '')),
+                            'condition_score': float(row.get('condition score', 0)) if str(row.get('condition score', '')).strip() else 0.0,
+                            'latitude': first_row.get('latitude', ''),
+                            'longitude': first_row.get('longitude', ''),
+                        }
+                        self.env['forest.tree.line'].create(line_vals)
+                        line_count += 1
+                    except Exception as e:
+                        _logger.error(f"Error creating tree line: {str(e)}")
+                        continue
+            
+            # Show success notification and reload the page
             return {
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',
                 'params': {
                     'title': _('Success'),
-                    'message': _('Successfully imported %s trees with %s tree lines.') % (tree_count, line_count),
+                    'message': _('Successfully imported %s forests with %s tree lines.') % (tree_count, line_count),
                     'sticky': False,
+                    'next': {
+                        'type': 'ir.actions.client',
+                        'tag': 'reload',
+                    }
                 }
             }
             
         except Exception as e:
+            _logger.error(f"Error in tree import: {str(e)}", exc_info=True)
             raise UserError(_('Error importing file: %s') % str(e))
     
     def _get_forest_id(self, name):
@@ -239,7 +263,7 @@ class ForestTreeImportWizard(models.TransientModel):
         bold_format = workbook.add_format({'bold': True})
 
         # Define headers
-        headers = ['Forest Name', 'Plot/Compartment', 'Stripe Line', 'Latitude', 'Longitude', 'Remarks', 'Stock Number', 'Species', 'Diameter', 'UoM', 'Condition Score', ]
+        headers = ['Forest Name', 'Plot/Compartment', 'Stripe Line', 'Latitude', 'Longitude', 'Remarks', 'Stock Number', 'Species', 'Diameter', 'Length UoM(m)', 'Condition Score', ]
 
         # Write headers with bold format
         for col_num, header in enumerate(headers):
@@ -350,7 +374,7 @@ class ForestFellingLine(models.Model):
         uom = self.env.ref('uom.product_uom_meter', raise_if_not_found=False)
         return uom.id
 
-    name = fields.Char(string="Stock Number")
+    name = fields.Integer(string="Stock Number")
 
     # Get Raw material species
     product_id = fields.Many2one(
@@ -367,7 +391,7 @@ class ForestFellingLine(models.Model):
         string="Plot/Compartment"
     )
     condition_score = fields.Float(string="Condition Score")
-    diameter = fields.Float(string="Diameter")
+    diameter = fields.Integer(string="Diameter")
     uom_id = fields.Many2one("uom.uom", string="UoM", default=_default_uom)
     latitude = fields.Char(string="Latitude")
     longitude = fields.Char(string="Longitude")
