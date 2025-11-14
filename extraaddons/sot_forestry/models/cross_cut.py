@@ -142,14 +142,14 @@ class CrossCutLog(models.Model):
     @api.onchange('logs_count', 'tree_id')
     def _onchange_logs_count(self):
         if self.logs_count and self.tree_id:
-            name = [self.tree_id.name]
+            name = [str(self.tree_id.name)]
             self.log_line_ids = False
 
             tree_felling_line_id = self.env['forest.tree.felling.line'].search([('tree_id', '=', self.tree_id.id)])
             if tree_felling_line_id:
                 tree_felling_line_id = tree_felling_line_id[0]
                 if tree_felling_line_id.contr_tree_no:
-                    name.append(tree_felling_line_id.contr_tree_no)
+                    name.append(str(tree_felling_line_id.contr_tree_no))
 
             name = "-".join(name)
             domain = [('tree_id', '=', self.tree_id.id)]
