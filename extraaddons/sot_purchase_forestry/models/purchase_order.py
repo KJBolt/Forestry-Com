@@ -30,7 +30,7 @@ class PurchaseOrderLine(models.Model):
     log_id = fields.Many2one('cross.cut.log.line', string="Cross Cut Log No", help="Cross Cut Log Number")
     grading = fields.Char(string='Grading')
     contr_tree_no = fields.Char(string="Contract Tree No", help="Contract Tree No")
-    diameter = fields.Float(string="Diameter", related="tree_id.diameter")
+    diameter = fields.Integer(string="Diameter", related="tree_id.diameter")
     remarks = fields.Text(string='Remarks')
 
     # Calculate Volume/Qty using formula
