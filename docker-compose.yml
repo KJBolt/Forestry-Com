@@ -37,7 +37,7 @@ services:
     image: dpage/pgadmin4
     restart: always
     ports:
-      - "8860:80"
+      - "80:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: johnbolt651@gmail.com
       PGADMIN_DEFAULT_PASSWORD: odoo
